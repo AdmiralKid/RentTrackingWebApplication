@@ -1,0 +1,2 @@
+insert into tenant (tenantname, tenantaddress, tenantmobilenumber, rentalagreementid, checkindate, checkoutdate, rentamount)
+VALUES ('Siddharth', 'address1', 1234567890, 1, '2020-12-27', null, '10000')
