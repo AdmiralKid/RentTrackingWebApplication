@@ -5,7 +5,7 @@ import {Route } from "react-router";
 import { BrowserRouter } from 'react-router-dom';
 import About from './components/About';
 import ViewTenant from './components/ViewTenant';
-import TenantContextProvider from './context/TenantContext.js'
+import TenantContextProvider from './context/TenantContext'
 
 function App() {
     return (
