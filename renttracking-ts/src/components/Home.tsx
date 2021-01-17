@@ -30,7 +30,6 @@ const Home = () => {
         <div className="container-fluid row">
             {(Flatlist.length <= 0) ? <div className="col-sm-3">No data to Show</div> :
                 Flatlist.map((item: Flat) => {
-                    debugger;
                     let currentTenant: Tenant|any = Tenantlist.find((tenant)=>{return item.currenttenantid === tenant.tenantid});
                     let isOccupied = (typeof currentTenant !== 'undefined');
                     return(
