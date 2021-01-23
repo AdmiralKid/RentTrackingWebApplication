@@ -7,50 +7,43 @@ export interface Props {
 }
  
 export interface TenantContextData {
-    tenantList: Tenant[];
-    getAllTenants: () => Promise<any[] | undefined>;
+    getAllTenants: () => Tenant[];
 }
 
 export const tenantContextDefaultValue: TenantContextData = {
-    tenantList: [],
-    getAllTenants: async () => undefined
+    getAllTenants: () => []
 }
-
-export const TenantContext = React.createContext<TenantContextData>(tenantContextDefaultValue);
-
-
 
 class TenantContextProvider extends React.Component {
-    getAllTenants = async () => {
-        let result : any[] = []
-        try{
-            const callback = await axios.get('http://localhost:5000/tenant/')
-            result.push(callback.data);
-            console.log("Callback Data = ",callback.data);
-            return result;
-        }
-        catch{
-            console.error("Error Get All Tenants.");
-        }        
+    getAllTenants = () => {
+        return this.state.tenantList;
     }
-    obj : Tenant = {
-        tenantid: 1,
-        tenantname: "sid",
-        tenantaddress: "abc",
-        tenantmobilenumber:9900,
-        rentalagreementid: 1,
-        checkindate: new Date(2018, 11, 24, 10, 33, 30),
-        rentamount: 10239
-    }  
-    state : TenantContextData= { tenantList:  [this.obj,this.obj], getAllTenants: this.getAllTenants}
-
+    state : any = { tenantList:  [], getAllTenants: this.getAllTenants}
+    initTenants = async  () => {
+        var allTenants: Tenant[] = []
+        try{
+            var response = await axios.get('http://localhost:5000/tenant/')
+            allTenants = response.data;
+        }
+        catch (err){
+            console.error(err);
+            allTenants = [];
+        }
+        return allTenants
+    }
+    
+    componentDidMount(){
+        this.initTenants().then((data)=>{
+            this.setState({tenantList:data})
+        })
+    }
     render() { 
-        return ( 
-            <TenantContext.Provider value={this.state}>
-                {this.props.children}
+        return (
+            <TenantContext.Provider value={{getAllTenants: this.getAllTenants, }}>
+                {(this.state.tenantList.length>0)?this.props.children: null}
             </TenantContext.Provider>
-         );
+        );
     }
 }
- 
+export const TenantContext = React.createContext<TenantContextData>(tenantContextDefaultValue);
 export default TenantContextProvider;

@@ -5,7 +5,8 @@ interface Tenant  {
     tenantmobilenumber: number;
     rentalagreementid: number;
     checkindate: Date;
-    rentamount: number; 
+    rentamount: number;
+    flatid: number; 
 }
 
 export default Tenant;

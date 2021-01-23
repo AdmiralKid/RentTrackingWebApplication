@@ -1,36 +1,23 @@
-import React from 'react';
-import {useState, useEffect} from 'react';
+import React,{useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import Flat from '../models/flat';
 import Tenant from '../models/tenant';
+import {TenantContext} from '../context/TenantContext';
+import {FlatContext} from '../context/FlatContext';
 const Home = () => {
     const [Flatlist, setFlatlist] = useState<Flat[]>([])
     const [Tenantlist, setTenantlist] = useState<Tenant[] | []>([])
+    const tenantContext = useContext(TenantContext)
+    const flatContext = useContext(FlatContext)
     useEffect(() => {
-        axios.get('http://localhost:5000/flat/')
-                .then(function (response) {
-                    console.log(response);
-                    setFlatlist(response.data)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-        
-        axios.get('http://localhost:5000/tenant/')
-                .then(function (response) {
-                    console.log(response);
-                    setTenantlist(response.data)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-        
+        setFlatlist(flatContext.getAllFlats())
+        setTenantlist(tenantContext.getAllTenants())
       },[]);
     return (
         <div className="container-fluid row">
             {(Flatlist.length <= 0) ? <div className="col-sm-3">No data to Show</div> :
                 Flatlist.map((item: Flat) => {
-                    let currentTenant: Tenant|any = Tenantlist.find((tenant)=>{return item.currenttenantid === tenant.tenantid});
+                    let currentTenant: Tenant|any = Tenantlist.find((tenant)=>{return item.flatid === tenant.flatid});
                     let isOccupied = (typeof currentTenant !== 'undefined');
                     return(
                         <div key={item.flatid} className="col-sm-3" style={{paddingTop: "10px"}}>
