@@ -2,8 +2,7 @@ DROP DATABASE renttracking;
 CREATE DATABASE renttracking;
 USE renttracking;
 CREATE TABLE flat(
-					flatid INT NOT NULL PRIMARY KEY, 
-					currenttenantid INT, 
+					flatid INT NOT NULL PRIMARY KEY,
                     floor VARCHAR(15), 
                     isMaintained BIT NOT NULL
 );
@@ -15,7 +14,8 @@ CREATE TABLE tenant(tenantid INT AUTO_INCREMENT PRIMARY KEY,
                     rentalagreementid INT,
                     checkindate DATE,
                     checkoutdate DATE null,
-                    rentamount BIGINT                    
+                    rentamount BIGINT,
+                    flatid int
 );
 
 CREATE TABLE rentalagreement(
