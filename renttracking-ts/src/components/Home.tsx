@@ -1,18 +1,17 @@
 import React,{useState, useEffect, useContext} from 'react';
-import axios from 'axios';
 import Flat from '../models/flat';
 import Tenant from '../models/tenant';
 import {TenantContext} from '../context/TenantContext';
 import {FlatContext} from '../context/FlatContext';
 const Home = () => {
-    const [Flatlist, setFlatlist] = useState<Flat[]>([])
-    const [Tenantlist, setTenantlist] = useState<Tenant[] | []>([])
-    const tenantContext = useContext(TenantContext)
-    const flatContext = useContext(FlatContext)
+    const [Flatlist, setFlatlist] = useState<Flat[]>([]);
+    const [Tenantlist, setTenantlist] = useState<Tenant[] | []>([]);
+    const tenantContext = useContext(TenantContext);
+    const flatContext = useContext(FlatContext);
     useEffect(() => {
-        setFlatlist(flatContext.getAllFlats())
-        setTenantlist(tenantContext.getAllTenants())
-      },[]);
+        setFlatlist(flatContext.getAllFlats());
+        setTenantlist(tenantContext.getAllTenants());
+      },[tenantContext,flatContext]);
     return (
         <div className="container-fluid row">
             {(Flatlist.length <= 0) ? <div className="col-sm-3">No data to Show</div> :

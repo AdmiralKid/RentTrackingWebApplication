@@ -15,28 +15,32 @@ export const FlatContextDefaultValue: FlatContextData = {
 }
 
 class FlatContextProvider extends React.Component {
+
     getAllFlats = () => {
         return this.state.FlatList;
     }
-    state : any = { FlatList:  [], getAllFlats: this.getAllFlats}
+
+    state : any = { FlatList:  [], getAllFlats: this.getAllFlats};
+    
     initFlats = async  () => {
-        var allFlats: Flat[] = []
+        var allFlats: Flat[] = [];
         try{
-            var response = await axios.get('http://localhost:5000/flat/')
+            var response = await axios.get('http://localhost:5000/flat/');
             allFlats = response.data;
         }
         catch (err){
             console.error(err);
             allFlats = [];
         }
-        return allFlats
+        return allFlats;
     }
     
     componentDidMount(){
         this.initFlats().then((data)=>{
-            this.setState({FlatList:data})
+            this.setState({FlatList:data});
         })
     }
+
     render() { 
         return (
             <FlatContext.Provider value={{getAllFlats: this.getAllFlats, }}>
