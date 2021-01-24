@@ -9,8 +9,14 @@ const Home = () => {
     const tenantContext = useContext(TenantContext);
     const flatContext = useContext(FlatContext);
     useEffect(() => {
-        setFlatlist(flatContext.getAllFlats());
-        setTenantlist(tenantContext.getAllTenants());
+        flatContext.getAllFlats()?.then((data) => {
+            setFlatlist(data);
+        })
+
+        tenantContext.getAllTenants()?.then((data) => {
+            setTenantlist(data);
+        })
+        
       },[tenantContext,flatContext]);
     return (
         <div className="container-fluid row">

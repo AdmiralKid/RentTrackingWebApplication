@@ -7,7 +7,9 @@ function ViewTenant() {
     const tenantContext = useContext(TenantContext);
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     useEffect(() => {
-        settenantlist(tenantContext.getAllTenants());
+        tenantContext.getAllTenants()?.then((data) => {
+            settenantlist(data);
+        })
     },[tenantContext])
     var tenantRow = tenantlistState.map((item) => {
         var cdate = new Date(item.checkindate)

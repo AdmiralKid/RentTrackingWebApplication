@@ -7,44 +7,34 @@ export interface Props {
 }
  
 export interface FlatContextData {
-    getAllFlats: () => Flat[];
+    getAllFlats: () => Promise<Flat[]> | undefined;
 }
 
 export const FlatContextDefaultValue: FlatContextData = {
-    getAllFlats: () => []
+    getAllFlats: () => undefined
 }
 
 class FlatContextProvider extends React.Component {
 
-    getAllFlats = () => {
-        return this.state.FlatList;
-    }
-
-    state : any = { FlatList:  [], getAllFlats: this.getAllFlats};
-    
-    initFlats = async  () => {
+    getAllFlats = async () => {
         var allFlats: Flat[] = [];
         try{
             var response = await axios.get('http://localhost:5000/flat/');
             allFlats = response.data;
+            return allFlats;
         }
         catch (err){
             console.error(err);
-            allFlats = [];
+            throw err;
         }
-        return allFlats;
     }
-    
-    componentDidMount(){
-        this.initFlats().then((data)=>{
-            this.setState({FlatList:data});
-        })
-    }
+
+    state : any = { getAllFlats: this.getAllFlats};
 
     render() { 
         return (
-            <FlatContext.Provider value={{getAllFlats: this.getAllFlats, }}>
-                {(this.state.FlatList.length>0)?this.props.children: null}
+            <FlatContext.Provider value={{getAllFlats: this.getAllFlats}}>
+                {this.props.children}
             </FlatContext.Provider>
         );
     }

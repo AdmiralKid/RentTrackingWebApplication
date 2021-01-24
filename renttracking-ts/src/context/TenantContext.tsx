@@ -7,44 +7,34 @@ export interface Props {
 }
  
 export interface TenantContextData {
-    getAllTenants: () => Tenant[];
+    getAllTenants: () => Promise<Tenant[]>|undefined;
 }
 
 export const tenantContextDefaultValue: TenantContextData = {
-    getAllTenants: () => []
+    getAllTenants: () => undefined
 }
 
 class TenantContextProvider extends React.Component {
 
-    getAllTenants = () => {
-        return this.state.tenantList;
-    }
-
-    state : any = { tenantList:  [], getAllTenants: this.getAllTenants};
-
-    initTenants = async  () => {
+    getAllTenants = async () : Promise<Tenant[]> => {
         var allTenants: Tenant[] = [];
         try{
             var response = await axios.get('http://localhost:5000/tenant/');
             allTenants = response.data;
+            return allTenants;
         }
         catch (err){
             console.error(err);
-            allTenants = [];
+            throw err;
         }
-        return allTenants;
-    }
-    
-    componentDidMount(){
-        this.initTenants().then((data)=>{
-            this.setState({tenantList:data});
-        })
     }
 
+    state : any = {getAllTenants: this.getAllTenants};
+    
     render() { 
         return (
-            <TenantContext.Provider value={{getAllTenants: this.getAllTenants, }}>
-                {(this.state.tenantList.length>0)?this.props.children: null}
+            <TenantContext.Provider value={{getAllTenants: this.getAllTenants}}>
+                {this.props.children}
             </TenantContext.Provider>
         );
     }
