@@ -17,7 +17,7 @@ function ViewTenant() {
         return( 
         <tr key={item.tenantid}>
             <td>{item.tenantname}</td>
-            <td>{item.tenantaddress}</td>
+            <td className="d-none d-md-block d-lg-block d-xl-block">{item.tenantaddress}</td>
             <td>{item.tenantmobilenumber}</td>
             <td>{dateFormatString}</td>
             <td>{item.rentamount}</td>
@@ -30,7 +30,7 @@ function ViewTenant() {
             <thead>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Address</th>
+                    <th className="d-none d-md-block d-lg-block d-xl-block" scope="col">Address</th>
                     <th scope="col">Contact Number</th>
                     <th scope="col">Check-in Date</th>
                     <th scope="col">Current Rent(₹)</th>
