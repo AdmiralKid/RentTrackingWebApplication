@@ -17,5 +17,19 @@ tenantrouter.get("/", (req, res)=>
         }
     })
 })
-
+tenantrouter.post("/assigntenant/", (req, res)=>
+{
+    const queryString = "update tenant set flatid = "+req.body.flatid+" where tenantid = "+req.body.tenantid;
+    mySqlConnection.query(queryString, (err, result, fields)=>
+    {
+        if(!err)
+        {
+            res.send("Success");
+        }
+        else
+        {
+            res.send("Error");
+        }
+    })
+})
 module.exports = tenantrouter;

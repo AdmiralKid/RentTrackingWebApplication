@@ -8,10 +8,12 @@ export interface Props {
  
 export interface TenantContextData {
     getAllTenants: () => Promise<Tenant[]>|undefined;
+    assignTenantToFlat:(flatid: number, tenantid: number) => void;
 }
 
 export const tenantContextDefaultValue: TenantContextData = {
-    getAllTenants: () => undefined
+    getAllTenants: () => undefined,
+    assignTenantToFlat: ()=>{}
 }
 
 class TenantContextProvider extends React.Component {
@@ -29,11 +31,27 @@ class TenantContextProvider extends React.Component {
         }
     }
 
+    assignTenantToFlat = (flatid: number, tenantid: number) => {
+        console.log(flatid,tenantid);
+        axios.post('http://localhost:5000/tenant/assigntenant/', {
+            flatid: flatid,
+            tenantid: tenantid
+          })
+          .then(function (response) {
+            console.log(response);
+            window.location.reload();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    }
+
     state : any = {getAllTenants: this.getAllTenants};
     
     render() { 
         return (
-            <TenantContext.Provider value={{getAllTenants: this.getAllTenants}}>
+            <TenantContext.Provider value={{getAllTenants: this.getAllTenants, assignTenantToFlat: this.assignTenantToFlat}}>
                 {this.props.children}
             </TenantContext.Provider>
         );

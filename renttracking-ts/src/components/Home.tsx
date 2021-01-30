@@ -4,11 +4,19 @@ import Tenant from '../models/tenant';
 import addPersonIcon from '../images/iconsvg/person-plus-fill.svg';
 import {TenantContext} from '../context/TenantContext';
 import {FlatContext} from '../context/FlatContext';
+import AssignTenantModal from './AssignTenantModal'
 const Home = () => {
     const [Flatlist, setFlatlist] = useState<Flat[]>([]);
     const [Tenantlist, setTenantlist] = useState<Tenant[] | []>([]);
+    const [SelectedFlat, setSelectedFlat] = useState<number>(0);
+    const [show, setShow] = useState(false);    
+    const closeModal = () => setShow(false);
+    const openModal = () => setShow(true);
     const tenantContext = useContext(TenantContext);
     const flatContext = useContext(FlatContext);
+    const onModalSubmit = (flatid : number, tenantid: number) => {
+        tenantContext.assignTenantToFlat(flatid,tenantid);
+    }
     useEffect(() => {
         flatContext.getAllFlats()?.then((data) => {
             setFlatlist(data);
@@ -21,7 +29,8 @@ const Home = () => {
       },[tenantContext,flatContext]);
 
     const assignTenantHandler = (flatid: number) => {
-        console.log(flatid);
+        setSelectedFlat(flatid);
+        openModal();
     }
     return (
         <div className="container-fluid row">
@@ -48,7 +57,8 @@ const Home = () => {
                         </div>
                     )
                 })
-            }            
+            }
+            <AssignTenantModal showModal={show} closeModalFunc={closeModal} tenantData={Tenantlist} selectedFlat = {SelectedFlat} onModalSubmit = {onModalSubmit}/>
         </div>
     )
 }
