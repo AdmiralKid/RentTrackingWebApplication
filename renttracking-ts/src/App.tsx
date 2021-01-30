@@ -6,19 +6,22 @@ import { BrowserRouter } from 'react-router-dom';
 import About from './components/About';
 import ViewTenant from './components/ViewTenant';
 import TenantContextProvider from './context/TenantContext'
+import FlatContextProvider from './context/FlatContext'
 
 function App() {
     return (
+      <BrowserRouter>
       <div className="App">
-        <AppNavbar/>
-        <BrowserRouter>
-          <TenantContextProvider>          
+        <AppNavbar/>        
+        <TenantContextProvider>
+          <FlatContextProvider>                   
             <Route path="/viewtenant"><ViewTenant /></Route>
             <Route path="/about"><About /></Route>
             <Route exact path="/"><Home /></Route>
-          </TenantContextProvider>
-        </BrowserRouter>
+          </FlatContextProvider>
+        </TenantContextProvider>        
       </div>
+      </BrowserRouter>
     );
 }
 

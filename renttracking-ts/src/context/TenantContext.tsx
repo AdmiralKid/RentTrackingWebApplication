@@ -7,50 +7,55 @@ export interface Props {
 }
  
 export interface TenantContextData {
-    tenantList: Tenant[];
-    getAllTenants: () => Promise<any[] | undefined>;
+    getAllTenants: () => Promise<Tenant[]>|undefined;
+    assignTenantToFlat:(flatid: number, tenantid: number) => void;
 }
 
 export const tenantContextDefaultValue: TenantContextData = {
-    tenantList: [],
-    getAllTenants: async () => undefined
+    getAllTenants: () => undefined,
+    assignTenantToFlat: ()=>{}
 }
-
-export const TenantContext = React.createContext<TenantContextData>(tenantContextDefaultValue);
-
-
 
 class TenantContextProvider extends React.Component {
-    getAllTenants = async () => {
-        let result : any[] = []
-        try{
-            const callback = await axios.get('http://localhost:5000/tenant/')
-            result.push(callback.data);
-            console.log("Callback Data = ",callback.data);
-            return result;
-        }
-        catch{
-            console.error("Error Get All Tenants.");
-        }        
-    }
-    obj : Tenant = {
-        tenantid: 1,
-        tenantname: "sid",
-        tenantaddress: "abc",
-        tenantmobilenumber:9900,
-        rentalagreementid: 1,
-        checkindate: new Date(2018, 11, 24, 10, 33, 30),
-        rentamount: 10239
-    }  
-    state : TenantContextData= { tenantList:  [this.obj,this.obj], getAllTenants: this.getAllTenants}
 
+    getAllTenants = async () : Promise<Tenant[]> => {
+        var allTenants: Tenant[] = [];
+        try{
+            var response = await axios.get('http://localhost:5000/tenant/');
+            allTenants = response.data;
+            return allTenants;
+        }
+        catch (err){
+            console.error(err);
+            throw err;
+        }
+    }
+
+    assignTenantToFlat = (flatid: number, tenantid: number) => {
+        console.log(flatid,tenantid);
+        axios.post('http://localhost:5000/tenant/assigntenant/', {
+            flatid: flatid,
+            tenantid: tenantid
+          })
+          .then(function (response) {
+            console.log(response);
+            window.location.reload();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    }
+
+    state : any = {getAllTenants: this.getAllTenants};
+    
     render() { 
-        return ( 
-            <TenantContext.Provider value={this.state}>
+        return (
+            <TenantContext.Provider value={{getAllTenants: this.getAllTenants, assignTenantToFlat: this.assignTenantToFlat}}>
                 {this.props.children}
             </TenantContext.Provider>
-         );
+        );
     }
 }
- 
+export const TenantContext = React.createContext<TenantContextData>(tenantContextDefaultValue);
 export default TenantContextProvider;
