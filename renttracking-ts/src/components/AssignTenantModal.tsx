@@ -17,40 +17,39 @@ function AssignTenantModal(props:propsType) {
     return (
         <>
             <Modal show={props.showModal} onHide={()=>{props.closeModalFunc()}}>
-            <Modal.Header closeButton>
-            <Modal.Title>Assign Tenant to Flat Number: {props.selectedFlat}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-            <ListGroup as="ul">
-                {props.tenantData.map((item: Tenant) => {
-                    if(item.flatid == null && item.checkoutdate == null)
-                    {
-                        return(
-                        <ListGroup.Item key={item.tenantid} as="li">
-                            <InputGroup>
-                                <InputGroup.Prepend>
-                                    <InputGroup.Radio name="tenantgroup" onChange={()=>{handleTenantSelection(item.tenantid)}} aria-label="TenantSelection" />
-                                </InputGroup.Prepend>
-                                <InputGroup.Text>{item.tenantname}</InputGroup.Text>
-                            </InputGroup>
-                        </ListGroup.Item>);
-                    }
-                })}
-            </ListGroup>
-            
-            </Modal.Body>
-            <Modal.Footer>
-            <Button variant="primary" onClick={()=>{
-                if(SelectedTenant !== -1)
-                {
-                    props.onModalSubmit(props.selectedFlat,SelectedTenant);
-                }
-                props.closeModalFunc();
-                }}>
-                Save Changes
-            </Button>
-            </Modal.Footer>
-        </Modal>
+                <Modal.Header closeButton>
+                    <Modal.Title>Assign Tenant to Flat Number: {props.selectedFlat}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <ListGroup as="ul">
+                        {props.tenantData.map((item: Tenant) => {
+                            if(item.flatid == null && item.checkoutdate == null)
+                            {
+                                return(
+                                <ListGroup.Item key={item.tenantid} as="li">
+                                    <InputGroup>
+                                        <InputGroup.Prepend>
+                                            <InputGroup.Radio name="tenantgroup" onChange={()=>{handleTenantSelection(item.tenantid)}} aria-label="TenantSelection" />
+                                        </InputGroup.Prepend>
+                                        <InputGroup.Text>{item.tenantname}</InputGroup.Text>
+                                    </InputGroup>
+                                </ListGroup.Item>);
+                            }
+                        })}
+                    </ListGroup>                    
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={()=>{
+                        if(SelectedTenant !== -1)
+                        {
+                            props.onModalSubmit(props.selectedFlat,SelectedTenant);
+                        }
+                        props.closeModalFunc();
+                        }}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }

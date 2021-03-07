@@ -9,9 +9,9 @@ const Home = () => {
     const [Flatlist, setFlatlist] = useState<Flat[]>([]);
     const [Tenantlist, setTenantlist] = useState<Tenant[] | []>([]);
     const [SelectedFlat, setSelectedFlat] = useState<number>(0);
-    const [show, setShow] = useState(false);    
-    const closeModal = () => setShow(false);
-    const openModal = () => setShow(true);
+    const [showAssignTo, setShowAssignTo] = useState(false);    
+    const closeAssignToModal = () => setShowAssignTo(false);
+    const openAssignToModal = () => setShowAssignTo(true);
     const tenantContext = useContext(TenantContext);
     const flatContext = useContext(FlatContext);
     const onModalSubmit = (flatid : number, tenantid: number) => {
@@ -30,7 +30,7 @@ const Home = () => {
 
     const assignTenantHandler = (flatid: number) => {
         setSelectedFlat(flatid);
-        openModal();
+        openAssignToModal();
     }
     return (
         <div className="container-fluid row">
@@ -58,7 +58,7 @@ const Home = () => {
                     )
                 })
             }
-            <AssignTenantModal showModal={show} closeModalFunc={closeModal} tenantData={Tenantlist} selectedFlat = {SelectedFlat} onModalSubmit = {onModalSubmit}/>
+            <AssignTenantModal showModal={showAssignTo} closeModalFunc={closeAssignToModal} tenantData={Tenantlist} selectedFlat = {SelectedFlat} onModalSubmit = {onModalSubmit}/>
         </div>
     )
 }
