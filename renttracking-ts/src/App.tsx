@@ -15,7 +15,7 @@ function App() {
         <AppNavbar/>        
         <TenantContextProvider>
           <FlatContextProvider>                   
-            <Route path="/viewtenant"><ViewTenant /></Route>
+            <Route path="/tenant"><ViewTenant /></Route>
             <Route path="/about"><About /></Route>
             <Route exact path="/"><Home /></Route>
           </FlatContextProvider>

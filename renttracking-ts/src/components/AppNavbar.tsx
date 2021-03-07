@@ -10,7 +10,7 @@ const AppNavbar = () => {
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link" aria-current="page" to="/viewtenant">View Tenant</Link>
+                                <Link className="nav-link" aria-current="page" to="/tenant">Tenant</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" aria-current="page" to="/about">About</Link>

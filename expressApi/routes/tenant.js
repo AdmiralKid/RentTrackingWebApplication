@@ -19,8 +19,8 @@ tenantrouter.get("/", (req, res)=>
 })
 tenantrouter.post("/assigntenant/", (req, res)=>
 {
-    const queryString = "update tenant set flatid = "+req.body.flatid+" where tenantid = "+req.body.tenantid;
-    mySqlConnection.query(queryString, (err, result, fields)=>
+    const queryString = "CALL TenantAssignFlat(?,?)";
+    mySqlConnection.query(queryString, [req.body.tenantid,req.body.flatid], (err, result, fields)=>
     {
         if(!err)
         {
@@ -28,6 +28,23 @@ tenantrouter.post("/assigntenant/", (req, res)=>
         }
         else
         {
+            res.send("Error");
+        }
+    })
+})
+
+tenantrouter.post("/addtenant/", (req, res)=>
+{
+    const queryString = "CALL TenantCreate(?,?,?,?,?,?,?,?)";
+    console.log(queryString)
+    mySqlConnection.query(queryString,[req.body.tenant.tenantname,req.body.tenant.tenantaddress,req.body.tenant.tenantmobilenumber,0,"2020-12-27",null,14000,null], (err, result, fields)=>
+    {
+        if(!err)
+        {            
+            res.send("Success");
+        }
+        else
+        {            
             res.send("Error");
         }
     })
