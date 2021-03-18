@@ -1,3 +1,3 @@
-import UserDB from "./userDB";
+import userDB from "./userDB";
 
-export { UserDB };
+export { userDB };

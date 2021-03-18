@@ -1,7 +1,7 @@
 import con from "../dbconnection";
 import { IUserAuth, IUserDetails } from "../interfaces";
 
-export default class UserDB {
+class UserDB {
 	async AuthenticateUserCredentials(
 		userName: string,
 		password: string
@@ -30,8 +30,6 @@ export default class UserDB {
 				queryString,
 				[userName, userPassword],
 				(error, results, fields) => {
-					console.log(fields);
-					console.log(results);
 					const isInserted = results[0][0].state as Boolean; // is either 0/1 not true/false
 					if (error) {
 						rej(error);
@@ -41,4 +39,26 @@ export default class UserDB {
 			);
 		});
 	}
+
+	async DeleteUser(userId: number): Promise<Boolean> {
+		const query = "CALL DeleteUserSoft(?)";
+		return new Promise((res, rej) => {
+			try {
+				con.query(query, [userId], (error, results, fields) => {
+					const isDeleted = results[0][0].state as Boolean; // is either 0/1 not true/false
+					console.log(results);
+					if (error) {
+						rej(error);
+					}
+					res(isDeleted);
+				});
+			} catch (err) {
+				rej(err);
+			}
+		});
+	}
 }
+
+const userDb = new UserDB();
+
+export default userDb;

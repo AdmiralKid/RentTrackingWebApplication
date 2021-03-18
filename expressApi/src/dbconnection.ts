@@ -11,6 +11,7 @@ const config = {
 			field.length === 1
 		) {
 			var bytes = field.buffer();
+			console.log(bytes);
 			return bytes[0] === 1;
 		}
 		return useDefaultTypeCasting();

@@ -1,26 +1,24 @@
 import jwt from "jsonwebtoken";
 import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
-import { UserDB } from "../database";
+import { userDB } from "../database";
 import { IUserAuth, IUserDetails, IAuthToken } from "../interfaces";
 import { userSchema } from "../schemas";
 
 export default class User {
-	userDB: UserDB;
 	userAuth: IUserAuth;
 	userDetails?: IUserDetails;
 
 	constructor(
 		public userName: string,
 		public password: string,
-		userId?: number
+		public userId: number = -1
 	) {
 		this.userAuth = {
-			userId: userId ?? -1,
+			userId: userId,
 			userName: userName,
 			userPassword: password,
 		};
-		this.userDB = new UserDB();
 	}
 
 	static GenerateUser(obj: any): User | Joi.ValidationError {
@@ -45,7 +43,8 @@ export default class User {
 				return res.status(403).send("FORBIDDEN");
 			} else {
 				const { userId, issueTime } = <IAuthToken>user;
-				if (t - issueTime <= 20000) {
+				if (t - issueTime <= 200000) {
+					req.token = <IAuthToken>user;
 					next();
 					return;
 				}
@@ -57,7 +56,7 @@ export default class User {
 	async GetAccessToken(): Promise<[string, number] | null> {
 		return new Promise((res, rej) => {
 			const issueTime = new Date().valueOf();
-			const { userName, password, userDB } = this;
+			const { userName, password} = this;
 			userDB
 				.AuthenticateUserCredentials(userName, password)
 				.then((user: IUserAuth | null) => {
@@ -78,10 +77,25 @@ export default class User {
 	}
 
 	async InsertUser(): Promise<Boolean> {
-		const { userDB, userName, password } = this;
+		const { userName, password } = this;
 		return new Promise((res, rej) => {
 			userDB
 				.InsertUserCredentials(userName, password)
+				.then((isInserted: Boolean) => {
+					res(isInserted);
+				})
+				.catch((err: Error) => {
+					rej(err);
+				})
+				.finally();
+		});
+	}
+
+	async DeleteUser(): Promise<Boolean> {
+		const { userId } = this;
+		return new Promise((res, rej) => {
+			userDB
+				.DeleteUser(userId)
 				.then((isInserted: Boolean) => {
 					res(isInserted);
 				})
@@ -96,7 +110,7 @@ export default class User {
 declare global {
 	namespace Express {
 		export interface Request {
-			user?: User;
+			token: IAuthToken;
 		}
 	}
 }
