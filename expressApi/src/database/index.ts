@@ -1,3 +1,3 @@
-import userDB from "./userDB";
+// created from 'create-ts-index'
 
-export { userDB };
+export * from './userDB';

@@ -1,3 +1,3 @@
-import User from "./user";
+// created from 'create-ts-index'
 
-export { User };
+export * from './user';

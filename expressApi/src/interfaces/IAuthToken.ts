@@ -1,4 +1,4 @@
-export default interface IAuthToken {
+export interface IAuthToken {
 	userId: number;
 	issueTime: number;
 }

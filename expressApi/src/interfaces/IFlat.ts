@@ -1,4 +1,4 @@
-export default interface Flat {
+export interface Flat {
     flatId: number,
     flatName: string,
 }

@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
-import { userDB } from "../database";
+import { userDb } from "../database";
 import { IUserAuth, IUserDetails, IAuthToken } from "../interfaces";
-import { userSchema } from "../schemas";
+import { userAuthSchema } from "../schemas";
 
-export default class User {
+export class User {
 	userAuth: IUserAuth;
 	userDetails?: IUserDetails;
 
@@ -22,11 +22,11 @@ export default class User {
 	}
 
 	static GenerateUser(obj: any): User | Joi.ValidationError {
-		const result = userSchema.validate(obj);
+		const result = userAuthSchema.validate(obj);
 		if (result.error) {
 			return result.error;
 		} else {
-			return new User(obj.userName, obj.password);
+			return new User(obj.userName, obj.userPassword);
 		}
 	}
 
@@ -56,8 +56,8 @@ export default class User {
 	async GetAccessToken(): Promise<[string, number] | null> {
 		return new Promise((res, rej) => {
 			const issueTime = new Date().valueOf();
-			const { userName, password} = this;
-			userDB
+			const { userName, password } = this;
+			userDb
 				.AuthenticateUserCredentials(userName, password)
 				.then((user: IUserAuth | null) => {
 					if (user == null) {
@@ -79,7 +79,7 @@ export default class User {
 	async InsertUser(): Promise<Boolean> {
 		const { userName, password } = this;
 		return new Promise((res, rej) => {
-			userDB
+			userDb
 				.InsertUserCredentials(userName, password)
 				.then((isInserted: Boolean) => {
 					res(isInserted);
@@ -94,7 +94,7 @@ export default class User {
 	async DeleteUser(): Promise<Boolean> {
 		const { userId } = this;
 		return new Promise((res, rej) => {
-			userDB
+			userDb
 				.DeleteUser(userId)
 				.then((isInserted: Boolean) => {
 					res(isInserted);

@@ -1,6 +1,5 @@
-import IUserAuth from "./IUserAuth";
-import IFlat from "./IFlat";
-import IUserDetails from "./IUserDetails";
-import IAuthToken from "./IAuthToken";
+// created from 'create-ts-index'
 
-export { IUserAuth, IUserDetails, IFlat, IAuthToken };
+export * from './IAuthToken';
+export * from './IFlat';
+export * from './IUser';

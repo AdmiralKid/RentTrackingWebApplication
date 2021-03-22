@@ -1,5 +1,5 @@
 import con from "../dbconnection";
-import { IUserAuth, IUserDetails } from "../interfaces";
+import { IUserAuth, IUserDetails, IUser } from "../interfaces";
 
 class UserDB {
 	async AuthenticateUserCredentials(
@@ -57,8 +57,66 @@ class UserDB {
 			}
 		});
 	}
+
+	// Returns -1 if not successfully created
+	async InsertUser(user: IUser): Promise<number> {
+		console.log(user);
+		const query = "CALL InsertUser(?,?,?,?,?,?)";
+		const { userAuth, userDetails } = user;
+		const { userName, userPassword } = userAuth;
+		const { firstName, lastName, emailId, mobileNo } = userDetails;
+		return new Promise((res, rej) => {
+			try {
+				con.query(
+					query,
+					[userName, userPassword, firstName, lastName, emailId, mobileNo],
+					(error, results, fields) => {
+						console.log(results);
+						const userId = results[0][0].state as number;
+						console.log(results);
+						if (error) {
+							rej(error);
+						}
+						res(userId);
+					}
+				);
+			} catch (err) {
+				rej(err);
+			}
+		});
+	}
+	async UpdateUser(userDetails: IUserDetails): Promise<void> {
+		const query = "CALL UpdateUser(?,?,?,?,?)";
+		const { userId, firstName, lastName, emailId, mobileNo } = userDetails;
+		return new Promise((res, rej) => {
+			con.query(
+				query,
+				[userId, firstName, lastName, emailId, mobileNo],
+				(error, results, fields) => {
+					if (error) {
+						rej(error);
+					} else {
+						res();
+					}
+				}
+			);
+		});
+	}
+	async GetUserDetails(userId: number): Promise<IUserDetails | null> {
+		const query = "CALL GetUserDetails(?)";
+		return new Promise((res, rej) => {
+			con.query(query, [userId], (error, results, fields) => {
+				if (error) {
+					rej(error);
+				}
+				if (results?.[0]?.[0]) {
+					res(results[0][0] as IUserDetails);
+				} else {
+					res(null);
+				}
+			});
+		});
+	}
 }
 
-const userDb = new UserDB();
-
-export default userDb;
+export const userDb = new UserDB();

@@ -1,4 +1,3 @@
-import userSchema from './userSchema';
+// created from 'create-ts-index'
 
-
-export { userSchema }
+export * from './userSchema';

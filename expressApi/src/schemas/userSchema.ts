@@ -1,32 +1,22 @@
 import Joi from "joi";
 
-const userSchema = Joi.object({
+export const userAuthSchema = Joi.object({
 	userId: Joi.number(),
 	userName: Joi.string().min(5).max(30).required(),
-	password: Joi.string().min(5).max(30).required(),
+	userPassword: Joi.string().min(5).max(30).required(),
 });
 
-export default userSchema;
+export const userDetailsSchema = Joi.object({
+	userId: Joi.number(),
+	firstName: Joi.string().required(),
+	lastName: Joi.string().required(),
+	emailId: Joi.string().email().required(),
+	mobileNo: Joi.string().min(10).max(10).required(), //set up pattern for mobile number pending...
+});
 
-interface IUserAuth {
-	userName: string;
-	password?: string;
-}
+export const userSchema = Joi.object({
+	userAuth: userAuthSchema,
+	userDetails: userDetailsSchema,
+});
 
-interface IUserDetails {
-	userId: number,
-	firstName: string;
-	lastName: string;
-	mobileno: string;
-	emailId: string;
-}
-
-interface IUser {
-	userAuth?: IUserAuth;
-	userDetails: IUserDetails;
-}
-
-interface IAccessToken {
-	userId: number
-	issueTime: number
-}
+// export { userAuthSchema };
