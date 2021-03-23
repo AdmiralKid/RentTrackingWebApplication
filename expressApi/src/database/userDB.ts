@@ -46,7 +46,6 @@ class UserDB {
 			try {
 				con.query(query, [userId], (error, results, fields) => {
 					const isDeleted = results[0][0].state as Boolean; // is either 0/1 not true/false
-					console.log(results);
 					if (error) {
 						rej(error);
 					}
@@ -60,7 +59,6 @@ class UserDB {
 
 	// Returns -1 if not successfully created
 	async InsertUser(user: IUser): Promise<number> {
-		console.log(user);
 		const query = "CALL InsertUser(?,?,?,?,?,?)";
 		const { userAuth, userDetails } = user;
 		const { userName, userPassword } = userAuth;
@@ -71,9 +69,7 @@ class UserDB {
 					query,
 					[userName, userPassword, firstName, lastName, emailId, mobileNo],
 					(error, results, fields) => {
-						console.log(results);
-						const userId = results[0][0].state as number;
-						console.log(results);
+						const userId = results[0][0].uid as number;
 						if (error) {
 							rej(error);
 						}
