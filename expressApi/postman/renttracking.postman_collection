@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "6ce3324b-77aa-4666-bba6-1cb32c2b5313",
+		"name": "Rent Tracking Web Applicaiton",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Sign In",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"userName\":\"{{userName}}\",\r\n   \"userPassword\":\"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/user/signin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"signin"
+							]
+						},
+						"description": "Sign in a User"
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userAuth\": {\r\n        \"userName\": \"{{userName}}\",\r\n        \"userPassword\": \"{{password}}\"\r\n    },\r\n    \"userDetails\": {\r\n        \"firstName\": \"{{firstName}}\",\r\n        \"lastName\": \"{{lastName}}\",\r\n        \"emailId\": \"{{emailId}}\",\r\n        \"mobileNo\": \"{{mobileNo}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/user/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"signup"
+							]
+						},
+						"description": "Sign in a User"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Details",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const url = pm.environment.get(\"baseUrl\") + \"/api/user/signin\";\r",
+									"const userName = pm.environment.get(\"userName\")\r",
+									"const userPassword = pm.environment.get(\"userPassword\")\r",
+									"const body = JSON.stringify({ userName, userPassword })\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: url,\r",
+									"    method: \"POST\",\r",
+									"    header: {\r",
+									"        \"content-type\": \"application/json\",\r",
+									"        \"accept\": \"application/json\",\r",
+									"        \"authorization\": pm.environment.get(\"authorizationToken\")\r",
+									"    },\r",
+									"    body: body\r",
+									"}, function (err, response) {\r",
+									"    const res = response.json();\r",
+									"    pm.environment.set(\"accessToken\", res.accessToken);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/user/details",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"details"
+							]
+						},
+						"description": "Sign in a User"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const url = pm.environment.get(\"baseUrl\") + \"/api/user/signin\";\r",
+									"const userName = pm.environment.get(\"userName\")\r",
+									"const userPassword = pm.environment.get(\"userPassword\")\r",
+									"const body = JSON.stringify({ userName, userPassword })\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: url,\r",
+									"    method: \"POST\",\r",
+									"    header: {\r",
+									"        \"content-type\": \"application/json\",\r",
+									"        \"accept\": \"application/json\",\r",
+									"        \"authorization\": pm.environment.get(\"authorizationToken\")\r",
+									"    },\r",
+									"    body: body\r",
+									"}, function (err, response) {\r",
+									"    const res = response.json();\r",
+									"    pm.environment.set(\"accessToken\", res.accessToken);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/user/delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"delete"
+							]
+						},
+						"description": "Sign in a User"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const url = pm.environment.get(\"baseUrl\") + \"/api/user/signin\";\r",
+									"const userName = pm.environment.get(\"userName\")\r",
+									"const userPassword = pm.environment.get(\"userPassword\")\r",
+									"const body = JSON.stringify({ userName, userPassword })\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: url,\r",
+									"    method: \"POST\",\r",
+									"    header: {\r",
+									"        \"content-type\": \"application/json\",\r",
+									"        \"accept\": \"application/json\",\r",
+									"        \"authorization\": pm.environment.get(\"authorizationToken\")\r",
+									"    },\r",
+									"    body: body\r",
+									"}, function (err, response) {\r",
+									"    const res = response.json();\r",
+									"    pm.environment.set(\"accessToken\", res.accessToken);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"{{firstName}}\",\r\n    \"lastName\" :\"{{lastName}}\",\r\n    \"emailId\":\"{{emailId}}\",\r\n    \"mobileNo\":\"{{mobileNo}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/user/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"update"
+							]
+						},
+						"description": "Sign in a User"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const url = pm.environment.get(\"baseUrl\") + \"/api/user/signin\";\r",
+									"const userName = pm.environment.get(\"userName\")\r",
+									"const userPassword = pm.environment.get(\"password\")\r",
+									"const body = JSON.stringify({ userName, userPassword })\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"    url: url,\r",
+									"    method: \"POST\",\r",
+									"    header: {\r",
+									"        \"content-type\": \"application/json\",\r",
+									"        \"accept\": \"application/json\",\r",
+									"        \"authorization\": pm.environment.get(\"authorizationToken\")\r",
+									"    },\r",
+									"    body: body\r",
+									"}, function (err, response) {\r",
+									"    const res = response.json();\r",
+									"    pm.environment.set(\"accessToken\", res.accessToken);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userPassword\":\"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/user/changepassword",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"changepassword"
+							]
+						},
+						"description": "Sign in a User"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
