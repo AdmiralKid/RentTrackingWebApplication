@@ -105,4 +105,27 @@ router.get("/details", User.Authenticate, (req: Request, res: Response) => {
 		.finally();
 });
 
+router.put(
+	"/changepassword",
+	User.Authenticate,
+	(req: Request, res: Response) => {
+		const schema = Joi.object({
+			userPassword: Joi.string().min(5).required(),
+		});
+		const result = schema.validate(req.body);
+		if (result.error) {
+			res.status(403).json(result.error);
+		}
+		userDb
+			.ChangePassword(req.token.userId, result.value.userPassword)
+			.then(() => {
+				res.json({ message: "Password is changed..." });
+			})
+			.catch((err) => {
+				res.status(503).json(err);
+			})
+			.finally();
+	}
+);
+
 export default router;

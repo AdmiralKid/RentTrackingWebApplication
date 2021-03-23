@@ -117,6 +117,18 @@ class UserDB {
 			});
 		});
 	}
+	async ChangePassword(userId: number, password: string): Promise<void> {
+		const query = "CALL ChangePassword(?, ?)";
+		return new Promise((res, rej) => {
+			con.query(query, [userId, password], (error, results, fields) => {
+				if (error) {
+					rej(error);
+				} else {
+					res();
+				}
+			});
+		});
+	}
 }
 
 export const userDb = new UserDB();
