@@ -8,18 +8,14 @@ Web application to track rent.
 
 ## Developement Setup
 #### Database
-- All Sql Scripts present in expressApi/sqlScripts/
-- First create database ``` create database renttracking ```
-- Execute ``` schema_creation.sql ``` first and then the rest.
+- Yet to init
 
 #### API
 - open CMD in /expressApi folder.
 - To Install all Packages ``` npm install ```
-- To Run the API ``` nodemon api.js ```
-- Runs on http://localhost:5000/
+- To Run the API ``` nodemon index.js ```
 
-#### React
-- open a new CMD in /renttracking-ts folder.
+#### Angular
+- open a new CMD in /rent-tracking-angular folder.
 - To Install all Packages ``` npm install ```
-- To Run the React Application ``` npm start ```
-- Runs on http://localhost:3000/
+- To Run the Angular Application ``` ng serve --open ```
