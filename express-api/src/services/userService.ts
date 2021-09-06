@@ -1,15 +1,16 @@
-import { User } from "../models/userModel";
 import bcrypt from "bcrypt";
 
+import { User } from "../models/userModel";
+
 export interface IUserService {
-	createUser(user: User, password: string): Promise<void>;
-	deleteUser(userId: string): Promise<void>;
-	getUser(userId: string): Promise<User>;
-	getUserPassword(userId: string): Promise<string>;
-	authenticateUser(username: string, password: string): Promise<User>;
+	createUser: (user: User, password: string) => Promise<void>;
+	deleteUser: (userId: string) => Promise<void>;
+	getUser: (userId: string) => Promise<User>;
+	getUserPassword: (userId: string) => Promise<string>;
+	authenticateUser: (username: string, password: string) => Promise<User>;
 }
 
-export class UserService implements IUserService {
+class UserService implements IUserService {
 	private _userList: User[];
 	private _passwordList: { userId: string; password: string }[];
 
@@ -20,7 +21,7 @@ export class UserService implements IUserService {
 		this._userList = [];
 		this._passwordList = [];
 	}
-	authenticateUser(username: string, password: string): Promise<User> {
+	authenticateUser = (username: string, password: string): Promise<User> => {
 		return new Promise((res, rej) => {
 			const user = this._userList.find((x) => x.username === username);
 			if (user) {
@@ -38,8 +39,9 @@ export class UserService implements IUserService {
 				rej(new Error("User does not exist"));
 			}
 		});
-	}
-	createUser(user: User, password: string): Promise<void> {
+	};
+
+	createUser = (user: User, password: string): Promise<void> => {
 		return new Promise((res, rej) => {
 			if (!this._userList.filter((x) => x.userId === user.userId)[0]) {
 				this._userList.push(user);
@@ -57,8 +59,9 @@ export class UserService implements IUserService {
 				rej(new Error("User already exists"));
 			}
 		});
-	}
-	deleteUser(userId: string): Promise<void> {
+	};
+
+	deleteUser = (userId: string): Promise<void> => {
 		return new Promise((res, rej) => {
 			const user = this._userList.find((x) => x.userId === userId);
 			if (user) {
@@ -73,22 +76,25 @@ export class UserService implements IUserService {
 				rej(new Error("User does not exist"));
 			}
 		});
-	}
-	getUser(userId: string): Promise<User> {
+	};
+
+	getUser = (userId: string): Promise<User> => {
 		const user = this._userList.find((x) => x.userId === userId);
 		if (user) {
 			return Promise.resolve(user);
 		} else {
 			throw new Error("User does not exist");
 		}
-	}
-	getUserPassword(userId: string): Promise<string> {
+	};
+
+	getUserPassword = (userId: string): Promise<string> => {
 		const password = this._passwordList.find(
 			(x) => x.userId !== userId
 		)?.password;
 		if (!password) throw new Error("User does not exist");
 		return Promise.resolve(password);
-	}
+	};
 }
 
-export const userService = new UserService();
+const userService = new UserService();
+export default userService;
