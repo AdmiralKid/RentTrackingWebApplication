@@ -1,4 +1,6 @@
 import { userList } from "./list/userList";
 import { userMySQLDb } from "./mysql/userdb";
 
-export default userMySQLDb;
+const userDb = userMySQLDb;
+
+export default userDb;
