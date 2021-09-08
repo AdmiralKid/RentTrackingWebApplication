@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
-import { User } from "../models/userModel";
-import validationService, {
+import {
+	validationService,
 	IValidationService,
 } from "../services/validationService";
 
@@ -13,7 +13,6 @@ class ValidationMiddleware {
 
 	validateUser = (req: Request, res: Response, next: NextFunction) => {
 		const { user } = req.body;
-		console.log(user);
 		if (user) {
 			this._validationService
 				.validateUser(user)
@@ -29,7 +28,6 @@ class ValidationMiddleware {
 
 	validatePassword = (req: Request, res: Response, next: NextFunction) => {
 		const { password } = req.body;
-		console.log(password);
 		if (password) {
 			this._validationService
 				.validatePassword(password)
@@ -42,6 +40,7 @@ class ValidationMiddleware {
 			next(new Error('"password" is not provided in body'));
 		}
 	};
+	
 	validateCredentials = (req: Request, res: Response, next: NextFunction) => {
 		const { credentials } = req.body;
 		this._validationService
@@ -54,6 +53,4 @@ class ValidationMiddleware {
 	};
 }
 
-const validationMiddleware = new ValidationMiddleware(validationService);
-
-export default validationMiddleware;
+export const validationMiddleware = new ValidationMiddleware(validationService);

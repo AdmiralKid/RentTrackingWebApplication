@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 
-import { User } from "../models/userModel";
-import tokenService, { ITokenService } from "../services/tokenService";
-import userService, { IUserService } from "../services/userService";
+import { InputCredentials, User } from "../models/userModel";
+import { ITokenService, tokenService } from "../services/tokenService";
+import { IUserService, userService } from "../services/userService";
 
 class UserController {
 	/**
@@ -35,13 +35,9 @@ class UserController {
 	};
 
 	signin = (req: Request, res: Response, next: NextFunction) => {
-		const credentials = res.locals.credentials as {
-			username: string;
-			password: string;
-		};
-		const { username, password } = credentials;
+		const credentials = res.locals.credentials as InputCredentials;
 		this._userService
-			.authenticateUser(username, password)
+			.authenticateUser(credentials)
 			.then((user) => {
 				this._tokenService
 					.getAccessToken(user)
@@ -59,6 +55,4 @@ class UserController {
 	};
 }
 
-const userController = new UserController(userService, tokenService);
-
-export default userController;
+export const userController = new UserController(userService, tokenService);

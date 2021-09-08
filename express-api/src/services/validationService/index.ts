@@ -1,13 +1,16 @@
-import { User } from "../../models/userModel";
-import userFactory, { IUserFactory } from "../userFactory";
-import { credentialsSchema, passwordSchema, userSchema } from "./schemas";
+import { InputCredentials, User } from "../../models/userModel";
+import { userFactory, IUserFactory } from "../userFactory";
+import {
+	credentialsSchema,
+	emailSchema,
+	passwordSchema,
+	userSchema,
+} from "./schemas";
 
 export interface IValidationService {
-	validateUser: (user: any) => Promise<User>;
-	validatePassword: (password: any) => Promise<string>;
-	validateCredentials: (
-		credentials: any
-	) => Promise<{ username: string; passoword: string }>;
+	validateUser(user: any): Promise<User>;
+	validatePassword(password: any): Promise<string>;
+	validateCredentials(credentials: any): Promise<InputCredentials>;
 }
 
 class ValidationService implements IValidationService {
@@ -29,16 +32,22 @@ class ValidationService implements IValidationService {
 				.catch(rej);
 		});
 	};
+
 	validatePassword = (password: any): Promise<string> => {
 		return passwordSchema.validateAsync(password);
 	};
-	validateCredentials = (
-		credentials: any
-	): Promise<{ username: string; passoword: string }> => {
-		return credentialsSchema.validateAsync(credentials);
+
+	validateCredentials = (credentials: any): Promise<InputCredentials> => {
+		const { usernameOrEmail, password } = credentials;
+		let inputCredentials: InputCredentials = { password };
+		const { error } = emailSchema.required().validate(usernameOrEmail);
+		if (error) {
+			inputCredentials.username = usernameOrEmail;
+		} else {
+			inputCredentials.email = usernameOrEmail;
+		}
+		return credentialsSchema.validateAsync(inputCredentials);
 	};
 }
 
-const validationService = new ValidationService(userFactory);
-
-export default validationService;
+export const validationService = new ValidationService(userFactory);

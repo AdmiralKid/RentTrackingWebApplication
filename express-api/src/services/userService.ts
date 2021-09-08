@@ -1,100 +1,91 @@
 import bcrypt from "bcrypt";
+import userDb from "../database/user-database/";
 
-import { User } from "../models/userModel";
+import { IUserDb } from "../database/user-database/interface";
+import { InputCredentials, User } from "../models/userModel";
+import { userFactory } from "./userFactory";
 
 export interface IUserService {
-	createUser: (user: User, password: string) => Promise<void>;
-	deleteUser: (userId: string) => Promise<void>;
-	getUser: (userId: string) => Promise<User>;
-	getUserPassword: (userId: string) => Promise<string>;
-	authenticateUser: (username: string, password: string) => Promise<User>;
+	createUser(user: User, password: string): Promise<void>;
+	deleteUser(userId: string): Promise<void>;
+	getUser(userId: string): Promise<User>;
+	authenticateUser(credentials: InputCredentials): Promise<User>;
 }
 
 class UserService implements IUserService {
-	private _userList: User[];
-	private _passwordList: { userId: string; password: string }[];
-
 	/**
 	 *
 	 */
-	constructor() {
-		this._userList = [];
-		this._passwordList = [];
-	}
-	authenticateUser = (username: string, password: string): Promise<User> => {
+	constructor(private _userDb: IUserDb) {}
+
+	authenticateUser = (credentials: InputCredentials): Promise<User> => {
 		return new Promise((res, rej) => {
-			const user = this._userList.find((x) => x.username === username);
-			if (user) {
-				const encPassword = this._passwordList.find(
-					(x) => x.userId === user.userId
-				)!.password;
-				bcrypt.compare(password, encPassword).then((isEqual) => {
-					if (isEqual) {
-						res(user);
-					} else {
-						rej(new Error("Password does not match"));
-					}
-				});
-			} else {
-				rej(new Error("User does not exist"));
+			const { username, email, password } = credentials;
+
+			const { getCredentialsByUsername, getCredentialsByEmail } =
+				this._userDb;
+
+			const getCredentials = username
+				? getCredentialsByUsername
+				: email
+				? getCredentialsByEmail
+				: undefined;
+
+			const inputCred = username ?? email;
+
+			if (getCredentials && inputCred) {
+				getCredentials(inputCred)
+					.then((credentials) => {
+						const { password: encPassword, userId } = credentials;
+						if (bcrypt.compareSync(password, encPassword)) {
+							this._userDb
+								.getUserById(userId)
+								.then((user) => {
+									const {
+										userId,
+										username,
+										email,
+										userType,
+									} = user;
+									res(
+										userFactory.createUser(
+											username,
+											email,
+											userType,
+											userId
+										)
+									);
+								})
+								.catch(rej);
+						} else {
+							rej(new Error("Password is incorrect"));
+						}
+					})
+					.catch(rej);
 			}
 		});
 	};
 
 	createUser = (user: User, password: string): Promise<void> => {
 		return new Promise((res, rej) => {
-			if (!this._userList.filter((x) => x.userId === user.userId)[0]) {
-				this._userList.push(user);
-
-				bcrypt.hash(password, 10).then((encPassword) => {
-					this._passwordList.push({
-						userId: user.userId,
-						password: encPassword,
-					});
-					console.log(this._passwordList);
-					console.log(this._userList);
-					res();
-				});
-			} else {
-				rej(new Error("User already exists"));
-			}
+			const { userId, username, email, userType } = user;
+			const encPassword = bcrypt.hashSync(password, 10);
+			this._userDb
+				.insertUser(userId, username, email, userType, encPassword)
+				.then(res)
+				.catch(rej);
 		});
 	};
 
 	deleteUser = (userId: string): Promise<void> => {
 		return new Promise((res, rej) => {
-			const user = this._userList.find((x) => x.userId === userId);
-			if (user) {
-				this._userList = this._userList.filter(
-					(x) => x.userId !== user.userId
-				);
-				this._passwordList = this._passwordList.filter(
-					(x) => x.userId !== user.userId
-				);
-				res();
-			} else {
-				rej(new Error("User does not exist"));
-			}
+			this._userDb.deleteUser(userId).then(res).catch(rej);
 		});
 	};
 
 	getUser = (userId: string): Promise<User> => {
-		const user = this._userList.find((x) => x.userId === userId);
-		if (user) {
-			return Promise.resolve(user);
-		} else {
-			throw new Error("User does not exist");
-		}
-	};
-
-	getUserPassword = (userId: string): Promise<string> => {
-		const password = this._passwordList.find(
-			(x) => x.userId !== userId
-		)?.password;
-		if (!password) throw new Error("User does not exist");
-		return Promise.resolve(password);
+		return Promise.resolve(this._userDb.getUserById(userId));
 	};
 }
 
-const userService = new UserService();
-export default userService;
+export const userService = new UserService(userDb);

@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 
 import { User } from "../models/userModel";
-import userFactory from "./userFactory";
+import { userFactory } from "./userFactory";
 
 export interface ITokenService {
-	getAccessToken: (user: User) => Promise<string>;
-	getUserFromToken: (token: string) => Promise<User>;
+	getAccessToken(user: User): Promise<string>;
+	getUserFromToken(token: string): Promise<User>;
 }
 
 export class TokenService implements ITokenService {
@@ -24,6 +24,4 @@ export class TokenService implements ITokenService {
 	};
 }
 
-const tokenService = new TokenService();
-
-export default tokenService;
+export const tokenService = new TokenService();

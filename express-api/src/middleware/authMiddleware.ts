@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import tokenService, { ITokenService } from "../services/tokenService";
+import { ITokenService, tokenService } from "../services/tokenService";
 
 class AuthMiddleware {
 	/**
@@ -9,7 +9,6 @@ class AuthMiddleware {
 	constructor(private _tokenService: ITokenService) {}
 
 	verifyToken = (req: Request, res: Response, next: NextFunction) => {
-		// console.log(this);
 		const auth = req.header("authorization") as string;
 		if (!auth) {
 			next(new Error("No authorization"));
@@ -25,6 +24,4 @@ class AuthMiddleware {
 	};
 }
 
-const authMiddleware = new AuthMiddleware(tokenService);
-
-export default authMiddleware;
+export const authMiddleware = new AuthMiddleware(tokenService);

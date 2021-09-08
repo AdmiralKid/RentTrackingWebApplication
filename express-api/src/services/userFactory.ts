@@ -18,9 +18,14 @@ export class UserFactory implements IUserFactory {
 		userType: UserType,
 		userId?: string
 	): User => {
-		return new User(userId ?? uuidv4(), username, email, userType);
+		const user: User = {
+			userId: userId ?? uuidv4(),
+			username,
+			email,
+			userType,
+		};
+		return user;
 	};
 }
 
-const userFactory = new UserFactory();
-export default userFactory;
+export const userFactory = new UserFactory();
