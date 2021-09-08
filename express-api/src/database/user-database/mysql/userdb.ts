@@ -1,19 +1,16 @@
 import { Connection } from "mysql";
 
-import {
-	UserType,
-	User,
-	Credentials,
-	userTypes,
-} from "../../../models/userModel";
+import { UserType, User, Credentials } from "../../../models/userModel";
 import { conn } from "../../connections/mysql";
 import { IUserDb } from "../interface";
+import { mysqlMapper, MySQLSchemaMapper } from "./mapper";
+import { AffectedRows, CredentialsView, UserTable } from "./schemas";
 
 class UserMySQLDb implements IUserDb {
 	/**
 	 *
 	 */
-	constructor(private _con: Connection) {}
+	constructor(private _con: Connection, private _mapper: MySQLSchemaMapper) {}
 
 	insertUser = (
 		userId: string,
@@ -46,7 +43,8 @@ class UserMySQLDb implements IUserDb {
 					if (err) {
 						rej(err);
 					} else {
-						if (results[0][0].affected_rows!==0) res();
+						const { affected_rows } = results[0][0] as AffectedRows;
+						if (affected_rows !== 0) res();
 						else rej(new Error("User does not exist"));
 					}
 				}
@@ -63,14 +61,13 @@ class UserMySQLDb implements IUserDb {
 					if (err) {
 						rej(err);
 					} else {
-						console.log(results);
-						results[0][0]
-							? res({
-									...results[0][0],
-									userId: results[0][0].user_id,
-									userType: results[0][0].user_type,
-							  })
-							: rej(new Error("User does not exist"));
+						const result = results[0][0] as UserTable;
+						if (result) {
+							const user = this._mapper.getUserFromTable(result);
+							res(user);
+						} else {
+							rej(new Error("User does not exist"));
+						}
 					}
 				}
 			);
@@ -86,15 +83,10 @@ class UserMySQLDb implements IUserDb {
 					if (err) {
 						rej(err);
 					} else {
-						if (results[0][0]) {
-							const { user_id, username, email, password } =
-								results[0][0];
-							const credentials: Credentials = {
-								userId: user_id,
-								username,
-								email,
-								password,
-							};
+						const result = results[0][0] as CredentialsView;
+						if (result) {
+							const credentials =
+								this._mapper.getCredentialsFromView(result);
 							res(credentials);
 						} else {
 							rej(new Error("User does not exist"));
@@ -113,16 +105,10 @@ class UserMySQLDb implements IUserDb {
 					if (err) {
 						rej(err);
 					} else {
-						console.log(results);
-						if (results[0][0]) {
-							const { user_id, username, email, password } =
-								results[0][0];
-							const credentials: Credentials = {
-								userId: user_id,
-								username,
-								email,
-								password,
-							};
+						const result = results[0][0] as CredentialsView;
+						if (result) {
+							const credentials =
+								this._mapper.getCredentialsFromView(result);
 							res(credentials);
 						} else {
 							rej(new Error("User does not exist"));
@@ -134,4 +120,4 @@ class UserMySQLDb implements IUserDb {
 	};
 }
 
-export const userMySQLDb = new UserMySQLDb(conn);
+export const userMySQLDb = new UserMySQLDb(conn, mysqlMapper);

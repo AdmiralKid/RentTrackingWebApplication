@@ -1,4 +1,4 @@
-import { userList } from "./classes/userList";
-import { userMySQLDb } from "./classes/userMySQLDb";
+import { userList } from "./list/userList";
+import { userMySQLDb } from "./mysql/userdb";
 
 export default userMySQLDb;
