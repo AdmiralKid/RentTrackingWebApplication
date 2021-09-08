@@ -1,13 +1,11 @@
-import { User } from "../../models/userModel";
-import userFactory, { IUserFactory } from "../userFactory";
+import { InputCredentials, User } from "../../models/userModel";
+import { userFactory, IUserFactory } from "../userFactory";
 import { credentialsSchema, passwordSchema, userSchema } from "./schemas";
 
 export interface IValidationService {
-	validateUser: (user: any) => Promise<User>;
-	validatePassword: (password: any) => Promise<string>;
-	validateCredentials: (
-		credentials: any
-	) => Promise<{ username: string; passoword: string }>;
+	validateUser(user: any): Promise<User>;
+	validatePassword(password: any): Promise<string>;
+	validateCredentials(credentials: any): Promise<InputCredentials>;
 }
 
 class ValidationService implements IValidationService {
@@ -32,13 +30,9 @@ class ValidationService implements IValidationService {
 	validatePassword = (password: any): Promise<string> => {
 		return passwordSchema.validateAsync(password);
 	};
-	validateCredentials = (
-		credentials: any
-	): Promise<{ username: string; passoword: string }> => {
+	validateCredentials = (credentials: any): Promise<InputCredentials> => {
 		return credentialsSchema.validateAsync(credentials);
 	};
 }
 
-const validationService = new ValidationService(userFactory);
-
-export default validationService;
+export const validationService = new ValidationService(userFactory);
