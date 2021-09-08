@@ -1,6 +1,11 @@
 import { InputCredentials, User } from "../../models/userModel";
 import { userFactory, IUserFactory } from "../userFactory";
-import { credentialsSchema, passwordSchema, userSchema } from "./schemas";
+import {
+	credentialsSchema,
+	emailSchema,
+	passwordSchema,
+	userSchema,
+} from "./schemas";
 
 export interface IValidationService {
 	validateUser(user: any): Promise<User>;
@@ -27,11 +32,22 @@ class ValidationService implements IValidationService {
 				.catch(rej);
 		});
 	};
+
 	validatePassword = (password: any): Promise<string> => {
 		return passwordSchema.validateAsync(password);
 	};
+
 	validateCredentials = (credentials: any): Promise<InputCredentials> => {
-		return credentialsSchema.validateAsync(credentials);
+		const { usernameOrEmail, password } = credentials;
+		let inputCredentials: InputCredentials = { password };
+		const { error } = emailSchema.required().validate(usernameOrEmail);
+		if (error) {
+			inputCredentials.username = usernameOrEmail;
+		} else {
+			inputCredentials.email = usernameOrEmail;
+		}
+		console.log(inputCredentials);
+		return credentialsSchema.validateAsync(inputCredentials);
 	};
 }
 

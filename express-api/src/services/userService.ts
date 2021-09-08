@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { userList } from "../database/user-database/";
+import userDb from "../database/user-database/";
 
 import { IUserDb } from "../database/user-database/interface";
 import { InputCredentials, User } from "../models/userModel";
@@ -17,7 +17,7 @@ class UserService implements IUserService {
 	 *
 	 */
 	constructor(private _userDb: IUserDb) {}
-	
+
 	authenticateUser = (credentials: InputCredentials): Promise<User> => {
 		return new Promise((res, rej) => {
 			const { username, email, password } = credentials;
@@ -37,6 +37,7 @@ class UserService implements IUserService {
 				getCredentials(inputCred)
 					.then((credentials) => {
 						const { password: encPassword, userId } = credentials;
+						console.log(credentials);
 						if (bcrypt.compareSync(password, encPassword)) {
 							this._userDb
 								.getUserById(userId)
@@ -88,4 +89,4 @@ class UserService implements IUserService {
 	};
 }
 
-export const userService = new UserService(userList);
+export const userService = new UserService(userDb);
