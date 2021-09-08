@@ -37,7 +37,6 @@ class UserService implements IUserService {
 				getCredentials(inputCred)
 					.then((credentials) => {
 						const { password: encPassword, userId } = credentials;
-						console.log(credentials);
 						if (bcrypt.compareSync(password, encPassword)) {
 							this._userDb
 								.getUserById(userId)

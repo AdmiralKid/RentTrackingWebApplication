@@ -46,7 +46,6 @@ class ValidationService implements IValidationService {
 		} else {
 			inputCredentials.email = usernameOrEmail;
 		}
-		console.log(inputCredentials);
 		return credentialsSchema.validateAsync(inputCredentials);
 	};
 }
