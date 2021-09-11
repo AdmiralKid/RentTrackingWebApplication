@@ -5,7 +5,7 @@ import { ValidationMiddleware } from "../middleware/validationMiddleware";
 import { InputCredentials, User } from "../models/userModel";
 import { ITokenService } from "../services/tokenService";
 import { IUserService } from "../services/userService";
-import { Middlewares, Services } from "../sever";
+import { Middlewares, Services } from "../server";
 
 export class UserRoutes {
 	private _router: Router;

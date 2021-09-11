@@ -12,4 +12,7 @@ export interface IUserDb {
 	getUserById(userId: string): Promise<User>;
 	getCredentialsByUsername(username: string): Promise<Credentials>;
 	getCredentialsByEmail(email: string): Promise<Credentials>;
+	approveUser(userId: string): Promise<void>;
+	rejectUser(userId: string): Promise<void>;
+	getUserRequests(): Promise<User[]>;
 }

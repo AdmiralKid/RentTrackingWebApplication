@@ -1,9 +1,6 @@
 import { Router } from "express";
-import { AuthMiddleware } from "../middleware/authMiddleware";
-import { ValidationMiddleware } from "../middleware/validationMiddleware";
-import { ITokenService } from "../services/tokenService";
-import { IUserService } from "../services/userService";
-import { Middlewares, Services } from "../sever";
+import { Middlewares, Services } from "../server";
+import { AdminRoutes } from "./adminRoutes";
 import { UserRoutes } from "./userRoutes";
 
 export class BaseRoutes {
@@ -23,8 +20,10 @@ export class BaseRoutes {
 		const { _router, _services, _middlewares } = this;
 
 		const userRoutes = new UserRoutes(_services, _middlewares);
+		const adminRoutes = new AdminRoutes(_services, _middlewares);
 
 		_router.use("/user", userRoutes.routes);
+		_router.use("/admin", adminRoutes.routes);
 
 		return _router;
 	}
