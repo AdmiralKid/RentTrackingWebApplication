@@ -1,5 +1,5 @@
 import { InputCredentials, User } from "../../models/userModel";
-import { userFactory, IUserFactory } from "../userFactory";
+import { IUserFactory } from "../userFactory";
 import {
 	credentialsSchema,
 	emailSchema,
@@ -13,7 +13,7 @@ export interface IValidationService {
 	validateCredentials(credentials: any): Promise<InputCredentials>;
 }
 
-class ValidationService implements IValidationService {
+export class ValidationService implements IValidationService {
 	/**
 	 *
 	 */
@@ -49,5 +49,3 @@ class ValidationService implements IValidationService {
 		return credentialsSchema.validateAsync(inputCredentials);
 	};
 }
-
-export const validationService = new ValidationService(userFactory);

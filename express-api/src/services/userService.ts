@@ -1,9 +1,8 @@
 import bcrypt from "bcrypt";
-import userDb from "../database/user-database/";
 
 import { IUserDb } from "../database/user-database/interface";
 import { InputCredentials, User } from "../models/userModel";
-import { userFactory } from "./userFactory";
+import { UserFactory } from "./userFactory";
 
 export interface IUserService {
 	createUser(user: User, password: string): Promise<void>;
@@ -12,11 +11,11 @@ export interface IUserService {
 	authenticateUser(credentials: InputCredentials): Promise<User>;
 }
 
-class UserService implements IUserService {
+export class UserService implements IUserService {
 	/**
 	 *
 	 */
-	constructor(private _userDb: IUserDb) {}
+	constructor(private _userDb: IUserDb, private _userFactory: UserFactory) {}
 
 	authenticateUser = (credentials: InputCredentials): Promise<User> => {
 		return new Promise((res, rej) => {
@@ -48,7 +47,7 @@ class UserService implements IUserService {
 										userType,
 									} = user;
 									res(
-										userFactory.createUser(
+										this._userFactory.createUser(
 											username,
 											email,
 											userType,
@@ -87,5 +86,3 @@ class UserService implements IUserService {
 		return Promise.resolve(this._userDb.getUserById(userId));
 	};
 }
-
-export const userService = new UserService(userDb);

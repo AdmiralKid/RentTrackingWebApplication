@@ -1,25 +1,11 @@
-import express, { Request, Response, NextFunction } from "express";
+import { UserList } from "./database/user-database/list/userList";
+import { Server } from "./sever";
+import { conn } from "./database/connections/mysql";
+import { UserMySQLDb } from "./database/user-database/mysql/userdb";
 
-import routes from "./routes";
+const userDb = new UserMySQLDb(conn);
+const server = new Server(userDb);
 
-const app = express();
+server.setup();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.get("/", (req: Request, res: Response) => {
-	res.json({ message: "HOME PAGE" });
-});
-
-app.use("/api", routes);
-
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-	const { message, stack, name } = err;
-	res.status(500).json({ name, message, stack, err });
-});
-
-const PORT = 5000;
-
-app.listen(PORT, () => {
-	console.log(`listening on http://localhost:${PORT}`);
-});
+server.run();

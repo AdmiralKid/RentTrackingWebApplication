@@ -3,14 +3,17 @@ import { Connection } from "mysql";
 import { UserType, User, Credentials } from "../../../models/userModel";
 import { conn } from "../../connections/mysql";
 import { IUserDb } from "../interface";
-import { mysqlMapper, MySQLSchemaMapper } from "./mapper";
+import { MySQLSchemaMapper } from "./mapper";
 import { AffectedRows, CredentialsView, UserTable } from "./schemas";
 
-class UserMySQLDb implements IUserDb {
+export class UserMySQLDb implements IUserDb {
+	private _mapper: MySQLSchemaMapper;
 	/**
 	 *
 	 */
-	constructor(private _con: Connection, private _mapper: MySQLSchemaMapper) {}
+	constructor(private _con: Connection) {
+		this._mapper = new MySQLSchemaMapper();
+	}
 
 	insertUser = (
 		userId: string,
@@ -119,5 +122,3 @@ class UserMySQLDb implements IUserDb {
 		});
 	};
 }
-
-export const userMySQLDb = new UserMySQLDb(conn, mysqlMapper);

@@ -1,12 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 
-import { ITokenService, tokenService } from "../services/tokenService";
+import { ITokenService } from "../services/tokenService";
+import { Services } from "../sever";
 
-class AuthMiddleware {
+export class AuthMiddleware {
+	private _tokenService: ITokenService;
 	/**
 	 *
 	 */
-	constructor(private _tokenService: ITokenService) {}
+	constructor({ tokenService }: Services) {
+		this._tokenService = tokenService;
+	}
 
 	verifyToken = (req: Request, res: Response, next: NextFunction) => {
 		const auth = req.header("authorization") as string;
@@ -23,5 +27,3 @@ class AuthMiddleware {
 			.catch(next);
 	};
 }
-
-export const authMiddleware = new AuthMiddleware(tokenService);
