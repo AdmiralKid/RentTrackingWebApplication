@@ -1,8 +1,10 @@
 import { Credentials, User, UserType } from "../../../models/userModel";
 import { IUserDb } from "../interface";
 
+type UserTable = User & { approved: boolean };
+
 export class UserList implements IUserDb {
-	private _userList: User[];
+	private _userList: UserTable[];
 	private _passwordList: { userId: string; password: string }[];
 	/**
 	 *
@@ -12,10 +14,43 @@ export class UserList implements IUserDb {
 		this._userList = [];
 	}
 
+	approveUser(userId: string): Promise<void> {
+		return new Promise((res, rej) => {
+			const user = this._userList.find((x) => x.userId === userId);
+			if (user?.approved === false) {
+				user.approved = true;
+				res();
+			} else {
+				if (!user) rej(new Error("User does not exist"));
+				else rej(new Error("User is already approved"));
+			}
+		});
+	}
+	rejectUser(userId: string): Promise<void> {
+		return new Promise((res, rej) => {
+			const user = this._userList.find((x) => x.userId === userId);
+			if (user?.approved === false) {
+				this._userList = this._userList.filter(
+					(x) => x.userId !== userId
+				);
+				this._passwordList = this._passwordList.filter(
+					(x) => x.userId !== userId
+				);
+				res();
+			} else {
+				if (!user) rej(new Error("User does not exist"));
+				else rej(new Error("User is already approved"));
+			}
+		});
+	}
+	getUserRequests(): Promise<User[]> {
+		return Promise.resolve(this._userList.filter((x) => !x.approved));
+	}
+
 	getCredentialsByUsername = (username: string): Promise<Credentials> => {
 		return new Promise((res, rej) => {
 			const user = this._userList.find((x) => x.username === username);
-			if (user) {
+			if (user?.approved) {
 				const { userId, email } = user;
 				const password = this._passwordList.find(
 					(x) => x.userId === userId
@@ -28,7 +63,8 @@ export class UserList implements IUserDb {
 				};
 				res(credentials);
 			} else {
-				rej(new Error("User does not exist"));
+				if (!user) rej(new Error("User does not exist"));
+				else rej(new Error("User is not yet approved"));
 			}
 		});
 	};
@@ -36,7 +72,7 @@ export class UserList implements IUserDb {
 	getCredentialsByEmail = (email: string): Promise<Credentials> => {
 		return new Promise((res, rej) => {
 			const user = this._userList.find((x) => x.email === email);
-			if (user) {
+			if (user?.approved) {
 				const { userId, username } = user;
 				const password = this._passwordList.find(
 					(x) => x.userId === userId
@@ -49,7 +85,8 @@ export class UserList implements IUserDb {
 				};
 				res(credentials);
 			} else {
-				rej(new Error("User does not exist"));
+				if (!user) rej(new Error("User does not exist"));
+				else rej(new Error("User is not yet approved"));
 			}
 		});
 	};
@@ -62,12 +99,20 @@ export class UserList implements IUserDb {
 		password: string
 	): Promise<void> => {
 		return new Promise((res, rej) => {
-			if (!this._userList.find((x) => x.userId === userId)) {
-				this._userList.push({ userId, username, email, userType });
+			const user = this._userList.find((x) => x.userId === userId);
+			if (!user) {
+				this._userList.push({
+					userId,
+					username,
+					email,
+					userType,
+					approved: userType === "admin",
+				});
 				this._passwordList.push({ userId, password });
 				res();
 			} else {
-				rej(new Error("User already exists"));
+				if (user.approved) rej(new Error("User already exists"));
+				else rej(new Error("User is yet to be approved"));
 			}
 		});
 	};
@@ -75,7 +120,7 @@ export class UserList implements IUserDb {
 	deleteUser = (userId: string): Promise<void> => {
 		return new Promise((res, rej) => {
 			const user = this._userList.find((x) => x.userId === userId);
-			if (user) {
+			if (user?.approved) {
 				this._userList = this._userList.filter(
 					(x) => x.userId !== userId
 				);
@@ -84,7 +129,8 @@ export class UserList implements IUserDb {
 				);
 				res();
 			} else {
-				rej(new Error("User does not exist"));
+				if (!user) rej(new Error("User does not exist"));
+				else rej(new Error("User is not yet approved"));
 			}
 		});
 	};

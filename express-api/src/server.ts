@@ -4,6 +4,7 @@ import { IUserDb } from "./database/user-database/interface";
 import { AuthMiddleware } from "./middleware/authMiddleware";
 import { ValidationMiddleware } from "./middleware/validationMiddleware";
 import { BaseRoutes } from "./routes";
+import { AdminService, IAdminService } from "./services/adminService";
 import { ITokenService, TokenService } from "./services/tokenService";
 import { UserFactory } from "./services/userFactory";
 import { IUserService, UserService } from "./services/userService";
@@ -20,6 +21,7 @@ export interface Services {
 	validationService: IValidationService;
 	tokenService: ITokenService;
 	userService: IUserService;
+	adminService: IAdminService;
 }
 
 export interface Middlewares {
@@ -50,9 +52,8 @@ export class Server {
 		app.use("/api", baseRoutes.routes);
 
 		app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-			const { code, message, name, stack } = err;
-
-			res.status(code ?? 500).json({ name, message, stack });
+			const { code } = err;
+			res.status(code ?? 500).json({ ...err });
 		});
 	}
 
@@ -61,8 +62,15 @@ export class Server {
 		const validationService = new ValidationService(userFactory);
 		const tokenService = new TokenService(userFactory);
 		const userService = new UserService(this._userDb, userFactory);
+		const adminService = new AdminService(this._userDb);
 
-		return { userFactory, validationService, tokenService, userService };
+		return {
+			userFactory,
+			validationService,
+			tokenService,
+			userService,
+			adminService,
+		};
 	}
 
 	configureMiddlewares(services: Services): Middlewares {

@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
+import { User } from "../models/userModel";
 
 import { ITokenService } from "../services/tokenService";
-import { Services } from "../sever";
+import { Services } from "../server";
 
 export class AuthMiddleware {
 	private _tokenService: ITokenService;
@@ -25,5 +26,14 @@ export class AuthMiddleware {
 				next();
 			})
 			.catch(next);
+	};
+
+	verifyAdmin = (req: Request, res: Response, next: NextFunction) => {
+		const { userType } = res.locals.user as User;
+		if (userType === "admin") {
+			next();
+		} else {
+			next(new Error("This API call is FORBIDDEN"));
+		}
 	};
 }
