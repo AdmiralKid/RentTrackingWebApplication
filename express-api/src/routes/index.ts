@@ -1,9 +1,31 @@
 import { Router } from "express";
+import { AuthMiddleware } from "../middleware/authMiddleware";
+import { ValidationMiddleware } from "../middleware/validationMiddleware";
+import { ITokenService } from "../services/tokenService";
+import { IUserService } from "../services/userService";
+import { Middlewares, Services } from "../sever";
+import { UserRoutes } from "./userRoutes";
 
-import userRoutes from "./userRoutes";
+export class BaseRoutes {
+	private _router: Router;
 
-const router = Router();
+	/**
+	 *
+	 */
+	constructor(
+		private _services: Services,
+		private _middlewares: Middlewares
+	) {
+		this._router = Router();
+	}
 
-router.use("/user", userRoutes);
+	get routes() {
+		const { _router, _services, _middlewares } = this;
 
-export default router;
+		const userRoutes = new UserRoutes(_services, _middlewares);
+
+		_router.use("/user", userRoutes.routes);
+
+		return _router;
+	}
+}

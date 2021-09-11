@@ -31,7 +31,7 @@ export class UserList implements IUserDb {
 				rej(new Error("User does not exist"));
 			}
 		});
-	}
+	};
 
 	getCredentialsByEmail = (email: string): Promise<Credentials> => {
 		return new Promise((res, rej) => {
@@ -100,5 +100,3 @@ export class UserList implements IUserDb {
 		});
 	};
 }
-
-export const userList = new UserList();

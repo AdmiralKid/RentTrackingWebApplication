@@ -30,4 +30,4 @@ export class MySQLSchemaMapper {
 	}
 }
 
-export const mysqlMapper = new MySQLSchemaMapper();
+

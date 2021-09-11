@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 
-import {
-	validationService,
-	IValidationService,
-} from "../services/validationService";
+import { IValidationService } from "../services/validationService";
+import { Services } from "../sever";
 
-class ValidationMiddleware {
+export class ValidationMiddleware {
+	private _validationService: IValidationService;
 	/**
 	 *
 	 */
-	constructor(private _validationService: IValidationService) {}
+	constructor({ validationService }: Services) {
+		this._validationService = validationService;
+	}
 
 	validateUser = (req: Request, res: Response, next: NextFunction) => {
 		const { user } = req.body;
@@ -40,7 +41,7 @@ class ValidationMiddleware {
 			next(new Error('"password" is not provided in body'));
 		}
 	};
-	
+
 	validateCredentials = (req: Request, res: Response, next: NextFunction) => {
 		const { credentials } = req.body;
 		this._validationService
@@ -52,5 +53,3 @@ class ValidationMiddleware {
 			.catch(next);
 	};
 }
-
-export const validationMiddleware = new ValidationMiddleware(validationService);

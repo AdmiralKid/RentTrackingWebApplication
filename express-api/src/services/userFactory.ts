@@ -27,5 +27,3 @@ export class UserFactory implements IUserFactory {
 		return user;
 	};
 }
-
-export const userFactory = new UserFactory();

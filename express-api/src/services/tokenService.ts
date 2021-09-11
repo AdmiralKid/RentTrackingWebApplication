@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import { User } from "../models/userModel";
-import { userFactory } from "./userFactory";
+import { UserFactory } from "./userFactory";
 
 export interface ITokenService {
 	getAccessToken(user: User): Promise<string>;
@@ -9,13 +9,17 @@ export interface ITokenService {
 }
 
 export class TokenService implements ITokenService {
+	/**
+	 *
+	 */
+	constructor(private _userFactory: UserFactory) {}
 	getUserFromToken = (token: string): Promise<User> => {
 		const tokenObj = jwt.verify(token, "SECRET");
 		const { user } =
 			typeof tokenObj === "string" ? JSON.parse(tokenObj) : tokenObj;
 		const { username, userId, email, userType } = user;
 		return Promise.resolve(
-			userFactory.createUser(username, email, userType, userId)
+			this._userFactory.createUser(username, email, userType, userId)
 		);
 	};
 	getAccessToken = (user: User): Promise<string> => {
@@ -23,5 +27,3 @@ export class TokenService implements ITokenService {
 		return Promise.resolve(token);
 	};
 }
-
-export const tokenService = new TokenService();
