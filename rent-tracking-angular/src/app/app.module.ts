@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CoreModule } from './core.module';
+import {LoginGuard} from './login/login.guard'
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { CoreModule } from './core.module';
     HttpClientModule,
     CoreModule,
   ],
-  providers: [],
+  providers: [LoginGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

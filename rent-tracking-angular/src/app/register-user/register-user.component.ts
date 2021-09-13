@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User, UserType } from '../shared/models/userModel';
-import { RegisterService } from '../shared/services/auth.service';
+import { AuthService } from '../shared/services/auth.service';
 import { RegisterResponseData } from '../shared/services/returns.service';
 
 interface dataType {
@@ -26,7 +26,7 @@ export class RegisterUserComponent {
   ];
 
   error: string = '';
-  constructor(private _authService: RegisterService, private _router: Router) {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
