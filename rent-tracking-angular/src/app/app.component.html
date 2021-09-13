@@ -13,14 +13,23 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="/login"
-          >Login <span class="sr-only">(current)</span></a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/register">Sign Up</a>
-      </li>
+      <div>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['login']" *ngIf="!checkLogin()"
+            >Login <span class="sr-only">(current)</span></a
+          >
+        </li>
+      </div>
+      <div>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['register']" *ngIf="!checkLogin()">Sign Up</a>
+        </li>
+      </div>
+      <div>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="checkLogin()" (click)="onLogout()">Log Out</a>
+        </li>
+      </div>
     </ul>
   </div>
 </nav>

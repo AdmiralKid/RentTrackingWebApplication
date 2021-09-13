@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
-import { RegisterService } from '../shared/services/auth.service';
+import { AuthService } from '../shared/services/auth.service';
 import { AuthResponseData } from '../shared/services/returns.service';
+import { LoginGuard } from './login.guard';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent {
   loginUserData = { email: '', password: '' };
 
   error: string = '';
-  constructor(private _authService: RegisterService, private _router: Router) {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
@@ -30,7 +31,9 @@ export class LoginComponent {
     authObser.subscribe(
       (resData) => {
         console.log(resData);
-        this._router.navigate(['/']);
+        localStorage.setItem('token', resData.token);
+
+        this._router.navigate(['/dashboard']);
       },
       (errorMessage) => {
         console.log(errorMessage);
