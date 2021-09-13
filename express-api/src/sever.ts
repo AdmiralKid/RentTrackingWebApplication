@@ -11,7 +11,6 @@ import {
 	IValidationService,
 	ValidationService,
 } from "./services/validationService";
-import cors from "cors";
 
 const PORT = 5000;
 const HOST = "localhost";
@@ -43,7 +42,6 @@ export class Server {
 
 		app.use(express.json());
 		app.use(express.urlencoded({ extended: true }));
-		app.use(cors());
 
 		const services = this.configureServices();
 		const middlewares = this.configureMiddlewares(services);
