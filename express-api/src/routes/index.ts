@@ -2,7 +2,6 @@ import { Router } from "express";
 import { Middlewares } from "../server/middlewares";
 import { Services } from "../server/services";
 import { AdminRoutes } from "./adminRoutes";
-import { RoomRoutes } from "./roomRoutes";
 import { UserRoutes } from "./userRoutes";
 
 export class BaseRoutes {
