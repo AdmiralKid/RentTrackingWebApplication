@@ -1,5 +1,6 @@
 import { IUserDb } from "../database/user-database/interface";
 import { User } from "../models/userModel";
+import { Databases } from "../server/databases";
 
 export interface IAdminService {
 	getUserRequests(): Promise<User[]>;
@@ -8,10 +9,13 @@ export interface IAdminService {
 }
 
 export class AdminService implements IAdminService {
+	private _userDb: IUserDb;
 	/**
 	 *
 	 */
-	constructor(private _userDb: IUserDb) {}
+	constructor({}, { userDb }: Databases) {
+		this._userDb = userDb;
+	}
 
 	getUserRequests = (): Promise<User[]> => {
 		return this._userDb.getUserRequests();

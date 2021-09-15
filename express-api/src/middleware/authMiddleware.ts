@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../models/userModel";
+import { Services } from "../server/services";
 
 import { ITokenService } from "../services/tokenService";
-import { Services } from "../server";
 
 export class AuthMiddleware {
 	private _tokenService: ITokenService;
