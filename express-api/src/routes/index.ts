@@ -2,7 +2,6 @@ import { Router } from "express";
 import { Middlewares } from "../server/middlewares";
 import { Services } from "../server/services";
 import { AdminRoutes } from "./adminRoutes";
-import { RoomRoutes } from "./roomRoutes";
 import { UserRoutes } from "./userRoutes";
 
 export class BaseRoutes {
@@ -19,16 +18,22 @@ export class BaseRoutes {
 	}
 
 	get routes() {
-		const { _router, _services, _middlewares } = this;
+		const { create, _router } = this;
 
-		const userRoutes = new UserRoutes(_services, _middlewares);
-		const adminRoutes = new AdminRoutes(_services, _middlewares);
-		const roomRoutes = new RoomRoutes(_services, _middlewares);
+		const userRoutes = create(UserRoutes);
+		const adminRoutes = create(AdminRoutes);
 
 		_router.use("/user", userRoutes.routes);
 		_router.use("/admin", adminRoutes.routes);
-		_router.use("/room", roomRoutes.routes);
 
 		return _router;
 	}
+
+	//#region private members
+	private create = <T>(
+		implementor: new (s: Services, m: Middlewares) => T
+	): T => {
+		return new implementor(this._services, this._middlewares);
+	};
+	//#endregion
 }

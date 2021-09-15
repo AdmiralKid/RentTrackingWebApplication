@@ -1,4 +1,3 @@
-import { AddService1, AddService2, IAddService } from "../services/addService";
 import { AdminService, IAdminService } from "../services/adminService";
 import { ITokenService, TokenService } from "../services/tokenService";
 import { IUserFactory, UserFactory } from "../services/userFactory";
@@ -18,7 +17,6 @@ export interface Services {
 	adminService: IAdminService;
 	tokenService: ITokenService;
 	validationService: IValidationService;
-	addService: IAddService;
 }
 
 export class Services {
@@ -34,7 +32,6 @@ export class Services {
 		this.adminService = create(AdminService);
 		this.tokenService = create(TokenService);
 		this.validationService = create(ValidationService);
-		this.addService = create(AddService2);
 	}
 
 	//#region private members
