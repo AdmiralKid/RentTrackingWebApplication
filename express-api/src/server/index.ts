@@ -1,4 +1,6 @@
 import express, { Express, Request, Response, NextFunction } from "express";
+import cors from "cors";
+
 import { BaseRoutes } from "../routes";
 import { Databases } from "./databases";
 import { Middlewares } from "./middlewares";
@@ -17,7 +19,7 @@ export interface Server {
 export class Server {
 	/**
 	 * Nothing Should be edited here. ABSOLUTELY NOTHING!!!
-	 * 
+	 *
 	 * unless you know what you are doing
 	 */
 	constructor(public databases: Databases) {
@@ -27,11 +29,15 @@ export class Server {
 		this.baseRoutes = new BaseRoutes(this.services, this.middlewares);
 	}
 
+	/**
+	 * Add your external middlewares here
+	 */
 	setup = () => {
 		const { app, baseRoutes } = this;
 
 		app.use(express.json());
 		app.use(express.urlencoded({ extended: true }));
+		app.use(cors());
 
 		app.use("/api", baseRoutes.routes);
 
