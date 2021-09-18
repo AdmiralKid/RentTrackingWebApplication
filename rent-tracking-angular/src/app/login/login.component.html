@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3 mx-auto">
+    <div class="card rounded-0">
+      <div class="card-header">
+        <h3 class="mb-0">Login</h3>
+      </div>
+      <div class="card-body">
+        <form #authForm="ngForm" class="form" (ngSubmit)="onSubmit(authForm)">
+          <div class="form-group">
+            <label for="email_username">Email/Username</label>
+            <input
+              class="form-control rounded-0"
+              type="text"
+              required
+              id="email_username"
+              placeholder="email/username"
+              name="email_username"
+              [(ngModel)]="loginUserData.email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              class="form-control rounded-0"
+              required
+              id="password"
+              placeholder="password"
+              name="password"
+              [(ngModel)]="loginUserData.password"
+            />
+          </div>
+          <button class="btn btn-primary float-right">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
