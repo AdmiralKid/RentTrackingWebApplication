@@ -14,6 +14,62 @@ export class UserMySQLDb implements IUserDb {
 	constructor(private _con: Connection) {
 		this._mapper = new MySQLSchemaMapper();
 	}
+	approveUser(userId: string): Promise<void> {
+		return new Promise((res, rej) => {
+			this._con.query(
+				"CALL `renttracking`.`approve_user_regstration`(?);",
+				[userId],
+				(err, results, fields) => {
+					if (err) {
+						rej(err);
+					} else {
+						const { affected_rows } = results[0][0] as AffectedRows;
+						if (affected_rows !== 0) res();
+						else rej(new Error("User request does not exist"));
+					}
+				}
+			);
+		});
+	}
+	rejectUser(userId: string): Promise<void> {
+		return new Promise((res, rej) => {
+			this._con.query(
+				"CALL `renttracking`.`reject_user_registration`(?);",
+				[userId],
+				(err, results, fields) => {
+					if (err) {
+						rej(err);
+					} else {
+						const { affected_rows } = results[0][0] as AffectedRows;
+						if (affected_rows !== 0) res();
+						else rej(new Error("User request does not exist"));
+					}
+				}
+			);
+		});
+	}
+	getUserRequests(): Promise<User[]> {
+		return new Promise((res, rej) => {
+			this._con.query(
+				"CALL `renttracking`.`get_user_registration_requests`();",
+				(err, results, fields) => {
+					if (err) {
+						rej(err);
+					} else {
+						const result = results[0] as UserTable[];
+						if (result) {
+							const user = result.map((x) =>
+								this._mapper.getUserFromTable(x)
+							);
+							res(user);
+						} else {
+							rej(new Error("User does not exist"));
+						}
+					}
+				}
+			);
+		});
+	}
 
 	insertUser = (
 		userId: string,

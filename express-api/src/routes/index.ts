@@ -1,9 +1,7 @@
 import { Router } from "express";
-import { AuthMiddleware } from "../middleware/authMiddleware";
-import { ValidationMiddleware } from "../middleware/validationMiddleware";
-import { ITokenService } from "../services/tokenService";
-import { IUserService } from "../services/userService";
-import { Middlewares, Services } from "../sever";
+import { Middlewares } from "../server/middlewares";
+import { Services } from "../server/services";
+import { AdminRoutes } from "./adminRoutes";
 import { UserRoutes } from "./userRoutes";
 
 export class BaseRoutes {
@@ -20,12 +18,22 @@ export class BaseRoutes {
 	}
 
 	get routes() {
-		const { _router, _services, _middlewares } = this;
+		const { create, _router } = this;
 
-		const userRoutes = new UserRoutes(_services, _middlewares);
+		const userRoutes = create(UserRoutes);
+		const adminRoutes = create(AdminRoutes);
 
 		_router.use("/user", userRoutes.routes);
+		_router.use("/admin", adminRoutes.routes);
 
 		return _router;
 	}
+
+	//#region private members
+	private create = <T>(
+		implementor: new (s: Services, m: Middlewares) => T
+	): T => {
+		return new implementor(this._services, this._middlewares);
+	};
+	//#endregion
 }

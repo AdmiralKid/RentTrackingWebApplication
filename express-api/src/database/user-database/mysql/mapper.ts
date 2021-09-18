@@ -8,7 +8,7 @@ export class MySQLSchemaMapper {
 	constructor() {}
 
 	getUserFromTable(userTable: UserTable): User {
-		const { user_id, username, email, user_type } = userTable;
+		const { user_id, username, email, user_type} = userTable;
 		const user: User = {
 			userId: user_id,
 			username,
@@ -29,5 +29,3 @@ export class MySQLSchemaMapper {
 		return credentials;
 	}
 }
-
-

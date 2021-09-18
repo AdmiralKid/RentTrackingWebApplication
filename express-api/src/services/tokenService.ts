@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 
 import { User } from "../models/userModel";
-import { UserFactory } from "./userFactory";
+import { Services } from "../server/services";
+import { IUserFactory, UserFactory } from "./userFactory";
 
 export interface ITokenService {
 	getAccessToken(user: User): Promise<string>;
@@ -9,10 +10,13 @@ export interface ITokenService {
 }
 
 export class TokenService implements ITokenService {
+	private _userFactory: IUserFactory;
 	/**
 	 *
 	 */
-	constructor(private _userFactory: UserFactory) {}
+	constructor({ userFactory }: Services) {
+		this._userFactory = userFactory;
+	}
 	getUserFromToken = (token: string): Promise<User> => {
 		const tokenObj = jwt.verify(token, "SECRET");
 		const { user } =

@@ -3,9 +3,10 @@ import { AuthMiddleware } from "../middleware/authMiddleware";
 import { ValidationMiddleware } from "../middleware/validationMiddleware";
 
 import { InputCredentials, User } from "../models/userModel";
+import { Middlewares } from "../server/middlewares";
+import { Services } from "../server/services";
 import { ITokenService } from "../services/tokenService";
 import { IUserService } from "../services/userService";
-import { Middlewares, Services } from "../sever";
 
 export class UserRoutes {
   private _router: Router;
