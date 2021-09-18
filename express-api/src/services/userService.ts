@@ -2,7 +2,9 @@ import bcrypt from "bcrypt";
 
 import { IUserDb } from "../database/user-database/interface";
 import { InputCredentials, User } from "../models/userModel";
-import { UserFactory } from "./userFactory";
+import { Databases } from "../server/databases";
+import { Services } from "../server/services";
+import { IUserFactory, UserFactory } from "./userFactory";
 
 export interface IUserService {
 	createUser(user: User, password: string): Promise<void>;
@@ -12,10 +14,15 @@ export interface IUserService {
 }
 
 export class UserService implements IUserService {
+	private _userDb: IUserDb;
+	private _userFactory: IUserFactory;
 	/**
 	 *
 	 */
-	constructor(private _userDb: IUserDb, private _userFactory: UserFactory) {}
+	constructor({ userFactory }: Services, { userDb }: Databases) {
+		this._userDb = userDb;
+		this._userFactory = userFactory;
+	}
 
 	authenticateUser = (credentials: InputCredentials): Promise<User> => {
 		return new Promise((res, rej) => {

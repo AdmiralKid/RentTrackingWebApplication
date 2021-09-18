@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction, Router } from "express";
 import { AuthMiddleware } from "../middleware/authMiddleware";
+import { Middlewares } from "../server/middlewares";
+import { Services } from "../server/services";
 import { IAdminService } from "../services/adminService";
-import { Middlewares, Services } from "../server";
 
 export class AdminRoutes {
 	private _adminService: IAdminService;

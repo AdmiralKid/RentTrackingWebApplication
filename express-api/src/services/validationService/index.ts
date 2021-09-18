@@ -1,4 +1,6 @@
 import { InputCredentials, User } from "../../models/userModel";
+import { Databases } from "../../server/databases";
+import { Services } from "../../server/services";
 import { IUserFactory } from "../userFactory";
 import {
 	credentialsSchema,
@@ -14,10 +16,13 @@ export interface IValidationService {
 }
 
 export class ValidationService implements IValidationService {
+	private _userFactory: IUserFactory;
 	/**
 	 *
 	 */
-	constructor(private _userFactory: IUserFactory) {}
+	constructor({ userFactory }: Services, {}: Databases) {
+		this._userFactory = userFactory;
+	}
 
 	validateUser = (user: any): Promise<User> => {
 		return new Promise((res, rej) => {

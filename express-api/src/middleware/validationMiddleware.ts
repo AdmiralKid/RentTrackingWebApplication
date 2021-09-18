@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+import { Services } from "../server/services";
 
 import { IValidationService } from "../services/validationService";
-import { Services } from "../server";
 
 export class ValidationMiddleware {
 	private _validationService: IValidationService;
