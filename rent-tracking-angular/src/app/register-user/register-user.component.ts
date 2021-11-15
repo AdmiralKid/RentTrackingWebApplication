@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User, UserType } from '../shared/models/userModel';
 import { AuthService } from '../shared/services/auth.service';
+import { ToastService } from './../shared/services/toast.service';
 import { RegisterResponseData } from '../shared/services/returns.service';
 
 interface dataType {
@@ -18,6 +19,9 @@ interface dataType {
 })
 export class RegisterUserComponent {
   isLoginMode = true;
+  bgColor = '';
+  show = false;
+  // delay:any;
   signUpData = { username: '', email: '', password: '' };
   selectedLevel = '';
   data: Array<dataType> = [
@@ -25,8 +29,12 @@ export class RegisterUserComponent {
     { id: 1, name: 'admin' },
   ];
 
-  error: string = '';
-  constructor(private _authService: AuthService, private _router: Router) {}
+  message: string = '';
+  constructor(
+    private _authService: AuthService,
+    private _router: Router,
+    private _toastService: ToastService,
+  ) {}
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
@@ -54,13 +62,18 @@ export class RegisterUserComponent {
 
     authObser.subscribe(
       (resData: any) => {
-        console.log(resData);
-        this._router.navigate(['/']);
+        // console.log(resData);
+        this.bgColor = 'bg-success text-line';
+        console.log(resData.message)
+        this.showToast(resData.message, this.bgColor);
+        setTimeout(() => {
+          this._router.navigate(['/']);
+        }, 5000);
       },
       (errorMessage: any) => {
+        this.bgColor = 'bg-danger text-line';
         console.log(errorMessage);
-        this.error = errorMessage;
-        this.showErrorAlert(errorMessage);
+        this.showToast(errorMessage, this.bgColor);
       }
     );
     form.reset();
@@ -68,10 +81,10 @@ export class RegisterUserComponent {
   }
 
   onHandleError() {
-    this.error = '';
+    this._toastService.setMessage('', false,"bg-white text-line");
   }
 
-  private showErrorAlert(message: string) {
-    console.log(message);
+  private showToast(message: string, bgColor: string) {
+    this._toastService.setMessage(message, true, bgColor);
   }
 }
