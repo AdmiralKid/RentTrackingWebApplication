@@ -63,10 +63,10 @@ export class AuthService {
   private handleAuthentication(message: string) {}
   private handleError(errorResponse: HttpErrorResponse) {
     let errorMessage = 'Unknown Error!';
-    if (!errorResponse.error || !errorResponse.error.console.error) {
+    if (!errorResponse.error) {
       return throwError(errorMessage);
     } else {
-      return throwError(errorResponse.error.error.message);
+      return throwError(errorResponse.error.message);
     }
   }
 }

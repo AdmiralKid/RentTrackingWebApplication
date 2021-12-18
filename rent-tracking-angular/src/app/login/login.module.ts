@@ -1,3 +1,5 @@
+import { ToastModule } from './../toast-info/toast.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login.component';
 import { NgModule } from '@angular/core';
@@ -9,7 +11,10 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
+    NgbModule,
+    ToastModule,
     RouterModule.forChild([{ path: '', component: LoginComponent }]),
   ],
+  bootstrap:[LoginComponent]
 })
 export class LoginModule {}

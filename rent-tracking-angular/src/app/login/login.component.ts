@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../shared/services/auth.service';
 import { AuthResponseData } from '../shared/services/returns.service';
-import { LoginGuard } from './login.guard';
+import { ToastService } from '../shared/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +14,7 @@ import { LoginGuard } from './login.guard';
 export class LoginComponent {
   loginUserData = { email: '', password: '' };
 
-  error: string = '';
-  constructor(private _authService: AuthService, private _router: Router) {}
+  constructor(private _authService: AuthService, private _router: Router,private _toastService:ToastService) {}
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
@@ -29,16 +28,17 @@ export class LoginComponent {
     authObser = this._authService.login(email_username, password);
 
     authObser.subscribe(
-      (resData) => {
+      (resData:any) => {
         console.log(resData);
+        this.showToast(resData.message,"bg-success text-line");
         localStorage.setItem('token', resData.token);
-
-        this._router.navigate(['/dashboard']);
+        setTimeout(()=>{
+          this._router.navigate(['/dashboard']);
+        },5000)
       },
       (errorMessage) => {
         console.log(errorMessage);
-        this.error = errorMessage;
-        this.showErrorAlert(errorMessage);
+        this.showToast(errorMessage,'bg-danger text-line');
       }
     );
     form.reset();
@@ -46,10 +46,10 @@ export class LoginComponent {
   }
 
   onHandleError() {
-    this.error = '';
+    this._toastService.setMessage('', false,"bg-white text-line");
   }
 
-  private showErrorAlert(message: string) {
-    console.log(message);
+  private showToast(message: string,bgColor: string) {
+    this._toastService.setMessage(message, true, bgColor);
   }
 }
