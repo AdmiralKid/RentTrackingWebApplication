@@ -1,1 +1,5 @@
-<p>dashboard works!</p>
+<div class="userInfo" *ngIf="auth.user| async as user">
+    <p>Hello {{user.displayName}}</p>
+    <img src="{{user.photoURL}}">
+</div>
+<button (click)="logout()">Logout</button>
