@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.user-img-div {
+  padding: 0.5em;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+}
+
+.user-img-div:hover {
+  cursor: pointer;
+}
+
+.user-card-img {
+  background-size: cover;
+}
