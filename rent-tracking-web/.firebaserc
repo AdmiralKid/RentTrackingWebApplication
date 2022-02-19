@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "renttrackingauth": {
+      "hosting": {
+        "rent-tracking-web": [
+          "renttrackingauth"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "renttrackingauth"
+  }
+}
