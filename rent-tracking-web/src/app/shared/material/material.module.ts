@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [],
@@ -18,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatToolbarModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatCardModule,
   ],
 })
 export class MaterialModule {}
