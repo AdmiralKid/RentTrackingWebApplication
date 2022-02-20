@@ -1,1 +1,21 @@
-<p>navbar works!</p>
+<mat-toolbar>
+  <div class="container">
+    <div class="app-title"><h1>RentTracking</h1></div>
+    <div class="actions">
+      <button
+        mat-button
+        [routerLink]="['aboutus']"
+        routerLinkActive="active-link"
+      >
+        About Us
+      </button>
+      <button
+        mat-button
+        [routerLink]="['login']"
+        routerLinkActive="active-link"
+      >
+        Login
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
