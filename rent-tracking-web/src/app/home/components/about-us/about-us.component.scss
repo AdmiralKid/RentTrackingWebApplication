@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 5em 0em;
+}
+
+.about-us {
+  color: white;
+  padding: 5em;
+  background-color: #000a;
+  border-radius: 10px;
+  min-width: 200px;
+  max-width: 500px;
+}

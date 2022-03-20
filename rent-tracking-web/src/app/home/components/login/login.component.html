@@ -1,6 +1,7 @@
-<div *ngIf="auth.user|async as user; else showLogin">
-<button (click)="logout()">Logout</button>
+<div class="container">
+    <div class="login-form">
+        <h1>Log in to RentTracking</h1>
+        <hr />
+        <div class="actions"><button mat-flat-button color="warn" (click)="login()">Sign in with google</button></div>
+    </div>
 </div>
-<ng-template #showLogin>
-    <button (click)="login()">Sign in with Google</button>
-</ng-template>

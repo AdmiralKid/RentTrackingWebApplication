@@ -1,0 +1,18 @@
+  .container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 10em 0em;
+}
+
+.login-form {
+  color: white;
+  padding: 5em;
+  background-color: #000a;
+  border-radius: 10px;
+}
+
+.actions {
+  margin: 3em 0em 0em 0em;
+  display: flex;
+}
