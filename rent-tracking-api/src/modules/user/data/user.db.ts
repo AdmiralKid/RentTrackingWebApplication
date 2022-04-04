@@ -3,11 +3,14 @@ import { userMappingService } from "../../../server/services";
 import { User } from "../models/user.model";
 import { UserTable } from "../models/userTable";
 export class UserDatabase {
+    
     constructor() {}
-    async createOrUpdateUser(user: User): Promise<User> {
+
+    createOrUpdateUser = async (user: User): Promise<User> => {
+        const queryString = "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?);";
         return new Promise((res, rej) => {
             conn.query(
-                "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?);",
+                queryString,
                 [
                     user.userId,
                     user.name,
@@ -22,7 +25,6 @@ export class UserDatabase {
                     } else {
                         let userTableData = result[0][0] as UserTable;
                         res(userMappingService.mapUserTableToUser(userTableData));
-                        console.log(user);
                     }
                 }
             );

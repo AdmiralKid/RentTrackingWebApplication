@@ -3,8 +3,10 @@ import { User } from "../models/user.model";
 import { UserTable } from "../models/userTable";
 
 export class UserMappingService {
+    
     constructor() {}
-    mapDecodedTokenToUser(token: DecodedToken): User {
+
+    mapDecodedTokenToUser = (token: DecodedToken): User => {
         const user: User = {
             userId: token.uid,
             name: token.name,
@@ -14,8 +16,8 @@ export class UserMappingService {
             userRoleId: 0,
         };
         return user;
-    }
-    mapUserTableToUser(userTable: UserTable): User {
+    };
+    mapUserTableToUser = (userTable: UserTable): User => {
         const user: User = {
             userId: userTable.user_id,
             name: userTable.name,
@@ -25,5 +27,5 @@ export class UserMappingService {
             userRoleId: userTable.user_role_id,
         };
         return user;
-    }
+    };
 }

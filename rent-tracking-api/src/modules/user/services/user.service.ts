@@ -4,8 +4,10 @@ import { DecodedToken } from "../models/decodedIdToken.model";
 import { User } from "../models/user.model";
 
 export class UserService {
+
     constructor() {}
-    async createOrUpdateUser(decodedToken: DecodedToken): Promise<User> {
+    
+    createOrUpdateUser = async (decodedToken: DecodedToken): Promise<User> => {
         let user: User = userMappingService.mapDecodedTokenToUser(decodedToken);
         return await userDatabase.createOrUpdateUser(user);
     }
