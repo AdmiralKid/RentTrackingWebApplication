@@ -1,6 +1,7 @@
+import { logOutUser } from './../../../core/store/user/user.actions';
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-navbar',
@@ -12,17 +13,11 @@ export class NavbarComponent {
   name$ = this.auth.user.pipe(map((user) => user?.displayName));
   email$ = this.auth.user.pipe(map((user) => user?.email));
 
-  constructor(public auth: AngularFireAuth, private _router: Router) {}
-
-  logOut() {
-    this.auth
-      .signOut()
-      .then((res) => {
-        this._router.navigate(['/home']);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  constructor(
+    private auth: AngularFireAuth,
+    private store: Store
+  ) {}
+  async logOut() {
+    this.store.dispatch(logOutUser());
   }
 }

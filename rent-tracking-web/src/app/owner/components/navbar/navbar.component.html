@@ -1,27 +1,47 @@
 <mat-toolbar>
   <div class="container">
     <div class="app-title">RentTracking</div>
-    <div
-      class="user-img-div"
-      [mat-menu-trigger-for]="accoutActions"
-      style="
+    <div class="navigation-items">
+      <button
+        mat-button
+        [routerLink]="['dashboard']"
+        routerLinkActive="active-link"
+      >
+        Dashboard
+      </button>
+
+      <button
+        mat-button
+        [routerLink]="['apartment']"
+        routerLinkActive="active-link"
+      >
+        Apartments
+      </button>
+      <div
+        class="user-img-div"
+        [mat-menu-trigger-for]="accoutActions"
+        style="
         background-image: url('{{ pic$ | async }}');
       "
-    ></div>
-    <mat-menu #accoutActions>
-      <mat-card class="example-card">
-        <mat-card-header>
-          <div
-            mat-card-avatar
-            style="background-image: url('{{ pic$ | async }}');"
-            class="user-card-img"
-          ></div>
-          <mat-card-title>{{ name$ | async }}</mat-card-title>
-          <mat-card-subtitle>{{ email$ | async }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content> </mat-card-content>
-      </mat-card>
-      <button mat-menu-item (click)="logOut()"><mat-icon>exit_to_app</mat-icon> Log out</button>
-    </mat-menu>
+      ></div>
+
+      <mat-menu #accoutActions>
+        <mat-card class="example-card">
+          <mat-card-header>
+            <div
+              mat-card-avatar
+              style="background-image: url('{{ pic$ | async }}');"
+              class="user-card-img"
+            ></div>
+            <mat-card-title>{{ name$ | async }}</mat-card-title>
+            <mat-card-subtitle>{{ email$ | async }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content> </mat-card-content>
+        </mat-card>
+        <button mat-menu-item (click)="logOut()">
+          <mat-icon>exit_to_app</mat-icon> Log out
+        </button>
+      </mat-menu>
+    </div>
   </div>
 </mat-toolbar>
