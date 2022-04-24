@@ -5,7 +5,9 @@ import { EntityStateEnum } from '../../models/enums/entityState';
 import { User } from '../../models/user.model';
 import {
   googleSignin,
+  googleSigninFailure,
   googleSigninSuccess,
+  loadUserFailure,
   loadUserSuccess,
   reloadUserState,
   reloadUserStateSuccess,
@@ -33,6 +35,11 @@ export const userReducer = createReducer(
     ...state,
     GoogleSignInState: EntityStateEnum.SUCCESS,
   })),
+  on(googleSigninFailure, (state, action) => ({
+    ...state,
+    GoogleSignInState: EntityStateEnum.FAILURE,
+    errorMessages: [action.errorMessage],
+  })),
   on(loadUserSuccess, (state, props) => {
     let changedState = {
       ...state,
@@ -42,5 +49,10 @@ export const userReducer = createReducer(
     localStorage.setItem('userState', JSON.stringify(changedState));
     return changedState;
   }),
+  on(loadUserFailure, (state, action) => ({
+    ...state,
+    UserEntityState: EntityStateEnum.FAILURE,
+    errorMessages: [action.errorMessage],
+  })),
   on(reloadUserStateSuccess, (state, props) => ({ ...state, ...props.user }))
 );
