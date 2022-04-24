@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { googleSignin } from '../../../core/store/user/user.actions';
-
 
 @Component({
   selector: 'app-login',
@@ -10,7 +8,7 @@ import { googleSignin } from '../../../core/store/user/user.actions';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private _router:Router, private store: Store) {}
+  constructor(private store: Store) {}
   login() {
     this.store.dispatch(googleSignin());
   }

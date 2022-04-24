@@ -21,3 +21,15 @@
 .user-card-img {
   background-size: cover;
 }
+
+.navigation-items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.active-link {
+  color: black;
+  background-color: white;
+}

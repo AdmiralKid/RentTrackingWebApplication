@@ -1,4 +1,3 @@
-import { state } from '@angular/animations';
 import { getSelectors } from '@ngrx/router-store';
 import { createReducer, on } from '@ngrx/store';
 import { EntityStateEnum } from '../../models/enums/entityState';
@@ -9,7 +8,6 @@ import {
   googleSigninSuccess,
   loadUserFailure,
   loadUserSuccess,
-  reloadUserState,
   reloadUserStateSuccess,
 } from './user.actions';
 export const { selectCurrentRoute } = getSelectors();

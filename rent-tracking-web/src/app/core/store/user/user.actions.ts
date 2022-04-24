@@ -10,7 +10,9 @@ export enum UserActions {
   loadUserSuccess = '[User] Load User Success',
   loadUserFailure = '[User] Load User Failure',
   reloadUserState = '[User] ReLoad User State',
-  reloadUserStateSuccess = '[User] ReLoad User State Success'
+  reloadUserStateSuccess = '[User] ReLoad User State Success',
+  logOutUser = '[User] Logout',
+  logOutUserSuccess = '[User] Logout Success',
 }
 
 export const googleSignin = createAction(UserActions.googleSignin);
@@ -45,3 +47,11 @@ export const reloadUserStateSuccess = createAction(
   UserActions.reloadUserStateSuccess,
   props<{ user: UserState }>()
 );
+
+export const logOutUser=createAction(
+  UserActions.logOutUser,
+)
+
+export const logOutUserSuccess=createAction(
+  UserActions.logOutUserSuccess,
+)
