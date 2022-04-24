@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import firebase from 'firebase/compat/app';
+import { Store } from '@ngrx/store';
+import { googleSignin } from '../../../core/store/user/user.actions';
 
 
 @Component({
@@ -10,20 +10,8 @@ import firebase from 'firebase/compat/app';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(public auth: AngularFireAuth,private _router:Router) {}
+  constructor(private _router:Router, private store: Store) {}
   login() {
-    this.auth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then((res) => {
-        console.log(res)
-        this._router.navigate(['/owner'])
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  logout() {
-    this.auth.signOut();
+    this.store.dispatch(googleSignin());
   }
 }
