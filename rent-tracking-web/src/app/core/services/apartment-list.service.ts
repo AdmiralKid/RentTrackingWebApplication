@@ -13,7 +13,7 @@ export class ApartmentListService {
   }
 
   fetchApartments(): Observable<ApartmentInt[]> {
-    return this.http.get(`${this._baseUrl}status`, {
+    return this.http.get(`${this._baseUrl}apartment/getbyownerid/ql05JCANt7eRQELI3KlBWvMuPXU2`, {
       headers: {
         'Content-Type': 'application/json',
         accept: 'application/json',
