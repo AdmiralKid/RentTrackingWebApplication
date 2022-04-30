@@ -4,7 +4,7 @@ import { conn } from "../db/mysql.connection";
 const router = Router();
 
 router.get("/", (_, res) => {
-	res.json({ message: { status: "OK", dbState: conn.state } });
+  res.json({ message: { status: "OK", dbState: conn.state } });
 });
 
 export default router;

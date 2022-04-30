@@ -8,5 +8,5 @@ export const environment = {
     authDomain: 'renttrackingauth.firebaseapp.com',
     messagingSenderId: '999725662599',
   },
-  production: true
+  production: true,
 };

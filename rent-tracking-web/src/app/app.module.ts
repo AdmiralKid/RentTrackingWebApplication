@@ -25,7 +25,7 @@ import { MaterialModule } from './core/material/material.module';
     provideFirestore(() => getFirestore()),
     CoreModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

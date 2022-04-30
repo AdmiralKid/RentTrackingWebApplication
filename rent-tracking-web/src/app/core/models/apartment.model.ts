@@ -1,7 +1,6 @@
-export interface ApartmentInt {
-    apartmentID: number;
-    name: string;
-    address: string;
-    ownerID: string;
-  }
-  
+export interface Apartment {
+  apartmentId: number;
+  name: string;
+  address: string;
+  ownerId: string;
+}

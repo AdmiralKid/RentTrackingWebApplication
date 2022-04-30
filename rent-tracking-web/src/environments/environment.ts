@@ -12,7 +12,8 @@ export const environment = {
     authDomain: 'renttrackingauth.firebaseapp.com',
     messagingSenderId: '999725662599',
   },
-  production: false
+  apiBaseURL: 'http://localhost:3000/api',
+  production: false,
 };
 
 /*

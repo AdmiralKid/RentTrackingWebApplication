@@ -22,7 +22,7 @@ import { initialState, UserState } from './user.reducers';
 export class UserEffects implements OnInitEffects {
   signInWithGoogle$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.googleSignin),
+      ofType(UserActions.GOOGLE_SIGNIN),
       mergeMap(() =>
         this.authService.googleLogin().pipe(
           mergeMap((data) => {
@@ -44,13 +44,13 @@ export class UserEffects implements OnInitEffects {
       )
     )
   );
+
   loadUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.loadUser),
+      ofType(UserActions.LOAD_USER),
       mergeMap(({ token }) => {
         return this.authService.createOrUpdateUser(token).pipe(
           map((user) => {
-            console.log(user);
             this._snackBar.openSnackBar(`Logged in as ${user.email}`);
             return loadUserSuccess({ user });
           }),
@@ -61,17 +61,19 @@ export class UserEffects implements OnInitEffects {
       })
     )
   );
+
   loadUserSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(UserActions.loadUserSuccess),
+        ofType(UserActions.LOAD_USER_SUCCESS),
         tap(() => this.router.navigate(['/owner/dashboard/']))
       ),
     { dispatch: false }
   );
+
   reloadUserState$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.reloadUserState),
+      ofType(UserActions.RELOAD_USER),
       mergeMap(() => {
         let userLocalState = localStorage.getItem('userState');
         let parsedUser: UserState = initialState;
@@ -85,7 +87,7 @@ export class UserEffects implements OnInitEffects {
 
   logOutUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.logOutUser),
+      ofType(UserActions.LOGOUT_USER),
       mergeMap(() =>
         this.authService.logout().pipe(map(() => logOutUserSuccess()))
       )
@@ -95,7 +97,7 @@ export class UserEffects implements OnInitEffects {
   logOutUserSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(UserActions.logOutUserSuccess),
+        ofType(UserActions.LOGOUT_USER_SUCCESS),
         tap(() => {
           this._snackBar.openSnackBar('Logged Out');
           localStorage.clear();
@@ -111,6 +113,7 @@ export class UserEffects implements OnInitEffects {
     private router: Router,
     private _snackBar: SnackBarService
   ) {}
+
   ngrxOnInitEffects(): Action {
     return reloadUserState();
   }

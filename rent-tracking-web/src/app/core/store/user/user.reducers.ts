@@ -1,6 +1,6 @@
 import { getSelectors } from '@ngrx/router-store';
 import { createReducer, on } from '@ngrx/store';
-import { EntityStateEnum } from '../../models/enums/entityState';
+import { StoreState } from '../../enums/store-state.enum.';
 import { User } from '../../models/user.model';
 import {
   googleSignin,
@@ -10,47 +10,55 @@ import {
   loadUserSuccess,
   reloadUserStateSuccess,
 } from './user.actions';
+
 export const { selectCurrentRoute } = getSelectors();
+
 export interface UserState {
   user: User | null;
-  GoogleSignInState: EntityStateEnum;
-  UserEntityState: EntityStateEnum;
+  GoogleSignInState: StoreState;
+  UserEntityState: StoreState;
   errorMessages: Array<string>;
 }
 export const initialState: UserState = {
   user: null,
-  GoogleSignInState: EntityStateEnum.INITIAL,
-  UserEntityState: EntityStateEnum.INITIAL,
+  GoogleSignInState: StoreState.INITIAL,
+  UserEntityState: StoreState.INITIAL,
   errorMessages: [],
 };
 export const userReducer = createReducer(
   initialState,
+
   on(googleSignin, (state: UserState) => ({
     ...state,
-    GoogleSignInState: EntityStateEnum.IN_PROGRESS,
+    GoogleSignInState: StoreState.IN_PROGRESS,
   })),
+
   on(googleSigninSuccess, (state: UserState) => ({
     ...state,
-    GoogleSignInState: EntityStateEnum.SUCCESS,
+    GoogleSignInState: StoreState.SUCCESS,
   })),
+
   on(googleSigninFailure, (state, action) => ({
     ...state,
-    GoogleSignInState: EntityStateEnum.FAILURE,
+    GoogleSignInState: StoreState.FAILURE,
     errorMessages: [action.errorMessage],
   })),
+
   on(loadUserSuccess, (state, props) => {
     let changedState = {
       ...state,
       user: props.user,
-      UserEntityState: EntityStateEnum.SUCCESS,
+      UserEntityState: StoreState.SUCCESS,
     };
     localStorage.setItem('userState', JSON.stringify(changedState));
     return changedState;
   }),
+
   on(loadUserFailure, (state, action) => ({
     ...state,
-    UserEntityState: EntityStateEnum.FAILURE,
+    UserEntityState: StoreState.FAILURE,
     errorMessages: [action.errorMessage],
   })),
-  on(reloadUserStateSuccess, (state, props) => ({ ...state, ...props.user }))
+
+  on(reloadUserStateSuccess, (state, action) => ({ ...state, ...action.user }))
 );
