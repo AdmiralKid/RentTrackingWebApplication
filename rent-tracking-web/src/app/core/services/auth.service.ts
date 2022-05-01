@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider, AuthProvider } from '@angular/fire/auth';
-import { from, mergeMap, Observable, of } from 'rxjs';
+import { from, mergeMap, Observable, of, zip } from 'rxjs';
 import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -37,25 +37,21 @@ export class AuthService {
     });
   }
 
-  getTokenId() {
-    return this.auth.user.pipe(
-      mergeMap((user) => {
-        if (!user) throw new Error('User is not signed in.');
-        return from(user.getIdTokenResult()).pipe(
-          mergeMap((token) => {
-            if (
-              new Date(token.expirationTime) <
-              new Date(
-                new Date().setMinutes(new Date().getMinutes() + this.bufferMins)
-              )
-            )
-              return from(user.getIdToken(true));
-            else return of(token.token);
-          })
-        );
-      })
-    );
-  }
+  token$ = zip(this.auth.user, this.auth.idTokenResult).pipe(
+    mergeMap(([user, token]) => {
+      if (!user) throw new Error('User is not signed in.');
+      if (!token) return from(user.getIdToken(true));
+      console.log(user, token);
+      if (
+        new Date(token.expirationTime) <
+        new Date(
+          new Date().setMinutes(new Date().getMinutes() - this.bufferMins)
+        )
+      )
+        return from(user.getIdToken(true));
+      else return of(token.token);
+    })
+  );
 
   logout() {
     return from(this.auth.signOut());
