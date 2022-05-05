@@ -7,12 +7,19 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { userReducer } from './store/user/user.reducers';
 import { UserEffects } from './store/user/user.effects';
+import { StoreEntities } from './enums/store-entities.enum';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    StoreModule.forRoot({ router: routerReducer, user: userReducer }, {}),
+    StoreModule.forRoot(
+      {
+        [StoreEntities.ROUTER]: routerReducer,
+        [StoreEntities.USER]: userReducer,
+      },
+      {}
+    ),
     EffectsModule.forRoot([UserEffects]),
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({

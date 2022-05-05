@@ -1,0 +1,20 @@
+<div class="tabSelector">
+  <mat-tab-group
+    color="primary"
+    backgroundColor="primary"
+    dynamicHeight
+    mat-align-tabs="center"
+  >
+    <mat-tab label="Display">
+      <div class="aptCardContainer">
+        <app-apartment-list
+          *ngFor="let apartment of apartments$ | async"
+          [apartment]="apartment"
+        ></app-apartment-list>
+      </div>
+    </mat-tab>
+    <mat-tab label="Create">
+      <app-apartment-form (submitApartment)="createApartment()"></app-apartment-form>
+    </mat-tab>
+  </mat-tab-group>
+</div>

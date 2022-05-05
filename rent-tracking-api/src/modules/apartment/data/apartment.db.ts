@@ -1,37 +1,39 @@
 import { conn } from "../../../db/mysql.connection";
+import { APIError } from "../../error/api-error.model";
 import { Apartment } from "../models/apartment.model";
 import { ApartmentTable } from "../models/apartmentTable";
+
 export class ApartmentDatabase {
-  constructor() {}
+	constructor() {}
 
-  fetchApartmentsbyOwnerID = async (owner_id: String): Promise<Apartment[]> => {
-    const queryString = "CALL `renttracking`.`pApartment_Get_By_Owner_ID`(?);";
-    return new Promise((res, rej) => {
-      conn.query(queryString, [owner_id], (err, result) => {
-        if (err) {
-          console.log("Error:", err);
-          rej(err);
-        } else {
-          let rows = this.mapApartmentEntity(result[0] as ApartmentTable[]);
-          res(rows);
-        }
-      });
-    });
-  };
+	fetchApartmentsbyOwnerID = async (owner_id: String): Promise<Apartment[]> => {
+		const queryString = "CALL `renttracking`.`pApartment_Get_By_Owner_ID`(?);";
+		return new Promise((res, rej) => {
+			conn.query(queryString, [owner_id], (error, result) => {
+				if (error) {
+					rej(new APIError(500, error));
+				} else {
+					let rows = this.mapApartmentEntity(result[0] as ApartmentTable[]);
+					res(rows);
+				}
+			});
+		});
+	};
 
-  private mapApartmentEntity = (
-    apartmentEntities: ApartmentTable[]
-  ): Apartment[] => {
-    let result: Apartment[] = [];
-    apartmentEntities.forEach((element) => {
-      const apartment: Apartment = {
-        apartmentID: element.apartment_id,
-        name: element.name,
-        address: element.address,
-        ownerID: element.owner_id,
-      };
-      result.push(apartment);
-    });
-    return result;
-  };
+	private mapApartmentEntity = (apartmentEntities: ApartmentTable[]): Apartment[] => {
+		let result: Apartment[] = [];
+
+		apartmentEntities.forEach(({ apartment_id, name, address, owner_id }) => {
+			const apartment: Apartment = {
+				apartmentId: apartment_id,
+				name: name,
+				address: address,
+				ownerId: owner_id,
+			};
+
+			result.push(apartment);
+		});
+
+		return result;
+	};
 }

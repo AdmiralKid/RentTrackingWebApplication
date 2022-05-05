@@ -1,15 +1,13 @@
-import { EntityStateEnum } from './../../models/enums/entityState';
+import { StoreState } from '../../enums/store-state.enum.';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 
-import { ApartmentInt } from '../../models/apartment.model';
+import { Apartment } from '../../models/apartment.model';
 
-const selectApartmentID = (apartment: ApartmentInt) => apartment.apartmentID;
-
-export const aptAdapter = createEntityAdapter<ApartmentInt>({
-  selectId: selectApartmentID,
+export const aptAdapter = createEntityAdapter<Apartment>({
+  selectId: (apartment: Apartment) => apartment.apartmentId,
 });
 
-export interface AptState extends EntityState<ApartmentInt>{
-  errorMessages: Array<string>,
-  status: EntityStateEnum,
+export interface ApartmentState extends EntityState<Apartment> {
+  errors: Array<string>;
+  status: StoreState;
 }

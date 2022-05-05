@@ -1,33 +1,33 @@
-import { aptAdapter, AptState } from './apartment.adapter';
+import { aptAdapter, ApartmentState } from './apartment.adapter';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import {
   loadApartments,
   loadApartmentsFailure,
   loadApartmentsSuccess,
 } from './apartment.actions';
-import { EntityStateEnum } from '../../models/enums/entityState';
+import { StoreState } from '../../enums/store-state.enum.';
 
-export const initialState: AptState = aptAdapter.getInitialState({
-  errorMessages: [],
-  status: EntityStateEnum.INITIAL,
+export const initialState: ApartmentState = aptAdapter.getInitialState({
+  errors: [],
+  status: StoreState.INITIAL,
 });
 
 export const apartmentReducer = createReducer(
   initialState,
   on(loadApartments, (state) => ({
     ...state,
-    status: EntityStateEnum.IN_PROGRESS,
+    status: StoreState.IN_PROGRESS,
   })),
   on(loadApartmentsSuccess, (state, { content }) => {
     return aptAdapter.setAll(content, {
       ...state,
-      status: EntityStateEnum.SUCCESS,
+      status: StoreState.SUCCESS,
     });
   }),
   on(loadApartmentsFailure, (state, { errorMessage }) => ({
     ...state,
-    status: EntityStateEnum.FAILURE,
-    errorMessages: [errorMessage],
+    status: StoreState.FAILURE,
+    errors: [errorMessage],
   }))
 );
 

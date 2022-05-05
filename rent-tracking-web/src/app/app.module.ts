@@ -11,7 +11,9 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from './core/material/material.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+const MaterialImports = [MatSnackBarModule];
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +27,7 @@ import { MaterialModule } from './core/material/material.module';
     provideFirestore(() => getFirestore()),
     CoreModule,
     HttpClientModule,
-    MaterialModule
+    MaterialImports,
   ],
   providers: [],
   bootstrap: [AppComponent],

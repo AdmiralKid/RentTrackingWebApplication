@@ -1,18 +1,17 @@
 import { Router } from "express";
+import { DecodedToken } from "../modules/user/models/decodedIdToken.model";
 import { apartmentService } from "../server/services";
 
 const router = Router();
 
-router.get("/getbyownerid/:id", async (_, res) => {
-  const _ownerid = String(_.params.id);
-  const getApartment = await apartmentService.fetchApartmentsbyOwnerID(
-    _ownerid
-  );
-  if (!getApartment) {
-    res.status(204).send("Apartments not found.");
-  } else {
-    res.json(getApartment);
-  }
+router.get("/", async (_, res) => {
+  let decodedToken = res.locals["decodedToken"] as DecodedToken;
+
+  const ownerId = decodedToken.uid;
+
+  const getApartment = await apartmentService.fetchApartmentsbyOwnerID(ownerId);
+
+  res.json(getApartment);
 });
 
 export default router;

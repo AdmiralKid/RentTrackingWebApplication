@@ -1,21 +1,20 @@
-import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 
-import { ApartmentInt } from '../../models/apartment.model';
+import { Apartment } from '../../models/apartment.model';
 
 export enum ApartmentActions {
-  loadApt = '[Apartment] Load Apartment',
-  loadAptSuccess = '[Apartment] Load Apartment Success',
-  loadAptFailure = '[Apartment] Load Apartment Failure',
+  LOAD_APARTMENT = '[Apartment] Load Apartment',
+  LOAD_APARTMENT_SUCCESS = '[Apartment] Load Apartment Success',
+  LOAD_APARTMENT_FAILURE = '[Apartment] Load Apartment Failure',
 }
-export const loadApartments = createAction(ApartmentActions.loadApt);
+export const loadApartments = createAction(ApartmentActions.LOAD_APARTMENT);
 
 export const loadApartmentsSuccess = createAction(
-  ApartmentActions.loadAptSuccess,
-  props<{ content: ApartmentInt[] }>()
+  ApartmentActions.LOAD_APARTMENT_SUCCESS,
+  props<{ content: Apartment[] }>()
 );
 
 export const loadApartmentsFailure = createAction(
-  ApartmentActions.loadAptFailure,
+  ApartmentActions.LOAD_APARTMENT_FAILURE,
   props<{ errorMessage: string }>()
 );

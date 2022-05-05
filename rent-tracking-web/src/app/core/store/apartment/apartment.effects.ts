@@ -3,9 +3,9 @@ import { catchError, map, mergeMap, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  ApartmentActions,
   loadApartmentsSuccess,
   loadApartmentsFailure,
+  loadApartments,
 } from './apartment.actions';
 
 @Injectable()
@@ -17,9 +17,9 @@ export class ApartmentEffects {
 
   loadApartments$ = createEffect(() =>
     this.action$.pipe(
-      ofType(ApartmentActions.loadApt),
+      ofType(loadApartments),
       mergeMap(() =>
-        this.aptService.fetchApartments().pipe(
+        this.aptService.apartments$.pipe(
           map((apartments) =>
             loadApartmentsSuccess({
               content: apartments,
@@ -27,10 +27,14 @@ export class ApartmentEffects {
           )
         )
       ),
-      catchError((e) =>
+      catchError((error) =>
         of(
           loadApartmentsFailure({
-            errorMessage: `Could not load apartments, ${JSON.stringify(e)}`,
+            errorMessage: `Could not load apartments,\n${JSON.stringify(
+              error,
+              undefined,
+              2
+            )}`,
           })
         )
       )
