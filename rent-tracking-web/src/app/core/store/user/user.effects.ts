@@ -28,10 +28,7 @@ export class UserEffects implements OnInitEffects {
           mergeMap((data) => {
             if (data.user === null || data.user === undefined) {
               return of(googleSigninFailure({ errorMessage: 'null' }));
-            }
-            return from(data.user.getIdToken(true)).pipe(
-              mergeMap((token) => [googleSigninSuccess(), loadUser({ token })])
-            );
+            } else return [googleSigninSuccess(), loadUser()];
           }),
           catchError(() =>
             of(
@@ -48,8 +45,8 @@ export class UserEffects implements OnInitEffects {
   loadUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOAD_USER),
-      mergeMap(({ token }) => {
-        return this.authService.createOrUpdateUser(token).pipe(
+      mergeMap(() => {
+        return this.authService.createOrUpdateUser().pipe(
           map((user) => {
             this._snackBar.openSnackBar(`Logged in as ${user.email}`);
             return loadUserSuccess({ user });

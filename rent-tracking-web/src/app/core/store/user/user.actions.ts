@@ -26,10 +26,7 @@ export const googleSigninFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadUser = createAction(
-  UserActions.LOAD_USER,
-  props<{ token: string }>()
-);
+export const loadUser = createAction(UserActions.LOAD_USER);
 
 export const loadUserSuccess = createAction(
   UserActions.LOAD_USER_SUCCESS,
