@@ -1,4 +1,4 @@
-import { ApartmentListService } from './../../services/apartment-list.service';
+import { ApartmentsService } from '../../services/apartments.service';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -12,7 +12,7 @@ import {
 export class ApartmentEffects {
   constructor(
     private action$: Actions,
-    private aptService: ApartmentListService
+    private aptService: ApartmentsService
   ) {}
 
   loadApartments$ = createEffect(() =>
