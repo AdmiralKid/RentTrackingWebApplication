@@ -6,8 +6,7 @@ dotenv.config();
 import router from "../routes";
 import { logMiddleware } from "../middleware/logging.middleware";
 import { errorHandler } from "../middleware/errorHandler.middleware";
-import { initializeApp } from "firebase-admin/app";
-import { environment } from "../environments/environment";
+import { initializeFirebase } from "./firebase";
 
 export class Server {
   private app = express();
@@ -16,9 +15,7 @@ export class Server {
 
   setup() {
     let { app } = this;
-
-    initializeApp(environment.firebase);
-
+    initializeFirebase();
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 

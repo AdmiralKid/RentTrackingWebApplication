@@ -1,5 +1,5 @@
 import { conn } from "../../../db/mysql.connection";
-import { APIError } from "../../error/api-error.model";
+import { APIError, HTTPStatusCode } from "../../error/api-error.model";
 import { User } from "../models/user.model";
 import { UserTable } from "../models/userTable";
 export class UserDatabase {
@@ -20,7 +20,7 @@ export class UserDatabase {
         [uid, name, phoneNumber, email, photoURL],
         (error, result) => {
           if (error) {
-            rej(new APIError(500, error));
+            rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
           } else {
             let userTableData = result[0][0] as UserTable;
             res(this.mapUserTableToUser(userTableData));
