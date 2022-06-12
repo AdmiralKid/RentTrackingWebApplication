@@ -1,5 +1,5 @@
 import { conn } from "../../../db/mysql.connection";
-import { APIError } from "../../error/api-error.model";
+import { APIError, HTTPStatusCode } from "../../error/api-error.model";
 import { Apartment } from "../models/apartment.model";
 import { ApartmentTable } from "../models/apartmentTable";
 
@@ -11,7 +11,7 @@ export class ApartmentDatabase {
 		return new Promise((res, rej) => {
 			conn.query(queryString, [owner_id], (error, result) => {
 				if (error) {
-					rej(new APIError(500, error));
+					rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
 				} else {
 					let rows = this.mapApartmentEntity(result[0] as ApartmentTable[]);
 					res(rows);
