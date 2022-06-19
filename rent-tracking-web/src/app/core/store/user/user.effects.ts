@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { catchError, from, map, mergeMap, of, tap } from 'rxjs';
+import { UserRole } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 import { SnackBarService } from '../../services/snack-bar.service';
 import {
@@ -62,8 +63,16 @@ export class UserEffects implements OnInitEffects {
   loadUserSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(UserActions.LOAD_USER_SUCCESS),
-        tap(() => this.router.navigate(['/owner/dashboard/']))
+        ofType(loadUserSuccess),
+        tap(({ user }) => {
+          if (user.userRoleId == UserRole.OWNER)
+            this.router.navigate(['/owner/dashboard/']);
+          else {
+            this.authService.logout();
+            this._snackBar.openSnackBar(`Your Account is not Active. Please Contact Admin.`, 5000);
+            this.router.navigate(['']);
+          }
+        })
       ),
     { dispatch: false }
   );

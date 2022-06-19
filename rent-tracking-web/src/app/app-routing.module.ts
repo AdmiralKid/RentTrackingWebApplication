@@ -1,33 +1,47 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
-  AngularFireAuthGuard,
-  redirectUnauthorizedTo,
-  redirectLoggedInTo,
+  hasCustomClaim,
+  canActivate,
+  AuthPipe,
+  AuthPipeGenerator,
+  loggedIn,
 } from '@angular/fire/compat/auth-guard';
+import { forkJoin, map, Observable, pipe} from 'rxjs';
 
-const redirectUnauth = () => redirectUnauthorizedTo(['home']);
-const redirectSignedInUser = () => redirectLoggedInTo(['owner']);
+const ownerUser = () => hasCustomClaim('owner');
+const combineAuthPipes =
+  (...args: AuthPipe[]) =>
+  (source: Observable<any>) =>
+    forkJoin(args.map((arg) => arg(source)));
+
+const redirectSignedInUser: AuthPipeGenerator = () =>
+  pipe(
+    combineAuthPipes(loggedIn, hasCustomClaim('owner')),
+    map((value) => {
+      const [_, v2] = value;
+      if (v2) return ['owner/dashboard'];
+      return true;
+    })
+  );
 
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'home',
-  },
   {
     path: 'home',
     loadChildren: () =>
       import('src/app/home/home.module').then((m) => m.HomeModule),
-    data: { authGuardPipe: redirectSignedInUser },
-    canActivate: [AngularFireAuthGuard],
+    ...canActivate(redirectSignedInUser),
   },
   {
     path: 'owner',
     loadChildren: () =>
       import('src/app/owner/owner.module').then((m) => m.OwnerModule),
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauth },
+    ...canActivate(ownerUser),
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'home',
   },
 ];
 
