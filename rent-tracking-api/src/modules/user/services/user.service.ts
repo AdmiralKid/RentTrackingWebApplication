@@ -1,6 +1,6 @@
 import { userDatabase } from "../../../server/database";
 import { DecodedToken } from "../models/decodedIdToken.model";
-import { User } from "../models/user.model";
+import { User, UserRole } from "../models/user.model";
 
 export class UserService {
   constructor() {}
@@ -11,13 +11,14 @@ export class UserService {
   };
 
   private mapDecodedTokenToUser = (token: DecodedToken): User => {
+    let roleId = token.owner ? UserRole.OWNER : token.tenant ? UserRole.TENANT : token.admin ? UserRole.ADMIN : UserRole.DEFAULT;
     const user: User = {
       uid: token.uid,
       name: token.name,
       phoneNumber: token.phone_number ?? "",
       email: token.email as string,
       photoURL: token.picture as string,
-      userRoleId: 0,
+      userRoleId: roleId,
     };
     return user;
   };

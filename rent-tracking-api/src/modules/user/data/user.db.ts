@@ -11,13 +11,14 @@ export class UserDatabase {
     phoneNumber,
     email,
     photoURL,
+    userRoleId
   }: User): Promise<User> => {
-    const queryString = "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?);";
+    const queryString = "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?,?);";
 
     return new Promise((res, rej) => {
       conn.query(
         queryString,
-        [uid, name, phoneNumber, email, photoURL],
+        [uid, name, phoneNumber, email, photoURL, userRoleId],
         (error, result) => {
           if (error) {
             rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
