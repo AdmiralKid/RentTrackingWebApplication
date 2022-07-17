@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { userReducer } from './store/user/user.reducers';
 import { UserEffects } from './store/user/user.effects';
 import { StoreEntities } from './enums/store-entities.enum';
+import { CustomSerializer } from './store/router/custom-route-serializer';
 
 @NgModule({
   declarations: [],
@@ -21,7 +22,9 @@ import { StoreEntities } from './enums/store-entities.enum';
       {}
     ),
     EffectsModule.forRoot([UserEffects]),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
