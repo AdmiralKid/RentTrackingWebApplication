@@ -23,6 +23,6 @@ export const flatLookupReducer = createReducer(
 );
 
 export const flatLookupFeature = createFeature({
-  name: 'flat-lookup',
+  name: 'flatlookup',
   reducer: flatLookupReducer,
 });

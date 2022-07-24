@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadFlatLookup } from '../../../core/store/flat-lookup/flat-lookup.actions';
-import { currentApartmentId } from '../../../core/store/flat-lookup/flat-lookup.selectors';
+import { currentApartmentId, selectFlatLookup } from '../../../core/store/flat-lookup/flat-lookup.selectors';
 
 @Component({
   selector: 'app-apartment-details',
@@ -9,6 +9,9 @@ import { currentApartmentId } from '../../../core/store/flat-lookup/flat-lookup.
   styleUrls: ['./apartment-details.component.scss']
 })
 export class ApartmentDetailsComponent implements OnInit {
+
+  flatLookup$=this.store.select(selectFlatLookup);
+
   currentApartmentId$ = this.store.select(currentApartmentId);
   constructor(private store: Store) { }
 
