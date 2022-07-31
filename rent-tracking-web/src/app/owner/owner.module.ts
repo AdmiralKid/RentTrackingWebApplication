@@ -17,6 +17,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { ApartmentDetailsComponent } from './containers/apartment-details/apartment-details.component';
+import { FlatLookupStoreModule } from '../core/store/flat-lookup/flat-lookup-store.module';
 
 const MaterialImports = [
   MatButtonModule,
@@ -37,12 +39,14 @@ const MaterialImports = [
     ApartmentsComponent,
     ApartmentListComponent,
     ApartmentFormComponent,
+    ApartmentDetailsComponent,
   ],
   imports: [
     CommonModule,
     OwnerRoutingModule,
     ReactiveFormsModule,
     ApartmentStoreModule,
+    FlatLookupStoreModule,
     MaterialImports,
   ],
 })

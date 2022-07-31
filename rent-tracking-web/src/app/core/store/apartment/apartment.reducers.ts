@@ -6,6 +6,7 @@ import {
   loadApartmentsSuccess,
 } from './apartment.actions';
 import { StoreState } from '../../enums/store-state.enum.';
+import { StoreEntities } from '../../enums/store-entities.enum';
 
 export const initialState: ApartmentState = aptAdapter.getInitialState({
   errors: [],
@@ -32,6 +33,6 @@ export const apartmentReducer = createReducer(
 );
 
 export const apartmentFeature = createFeature({
-  name: 'apartments',
+  name: StoreEntities.APARTMENT,
   reducer: apartmentReducer,
 });
