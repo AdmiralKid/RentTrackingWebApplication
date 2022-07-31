@@ -15,10 +15,8 @@ export class FlatLookupEffects {
       ofType(loadFlatLookup),
       mergeMap(({apartmentId}) =>
         this.flatService.flatLookupByApartmentId$(apartmentId).pipe(
-          map((flatlookup) =>
-            loadFlatLookupSuccess({
-              flatLookup: flatlookup,
-            })
+          map((flatLookup) =>
+            loadFlatLookupSuccess({flatLookup})
           )
         )
       ),

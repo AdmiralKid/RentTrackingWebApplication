@@ -12,10 +12,5 @@ export class FlatService {
   constructor(private http: HttpClient) {
     this._baseUrl = environment.apiBaseURL;
   }
-  flatLookupByApartmentId$ = (apartmentId: number) => this.http.get<FlatLookup[]>(`${this._baseUrl}/flat/flatlookup/${apartmentId}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      accept: 'application/json',
-    },
-  });
+  flatLookupByApartmentId$ = (apartmentId: number) => this.http.get<FlatLookup[]>(`${this._baseUrl}/flat/flatlookup/${apartmentId}`);
 }

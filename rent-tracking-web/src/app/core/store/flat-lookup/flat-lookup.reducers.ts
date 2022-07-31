@@ -1,4 +1,5 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
+import { StoreEntities } from "../../enums/store-entities.enum";
 import { StoreState } from "../../enums/store-state.enum.";
 import { FlatLookup } from "../../models/flatlookup.model";
 import { loadFlatLookup, loadFlatLookupFailure, loadFlatLookupSuccess } from "./flat-lookup.actions";
@@ -23,6 +24,6 @@ export const flatLookupReducer = createReducer(
 );
 
 export const flatLookupFeature = createFeature({
-  name: 'flatlookup',
+  name: StoreEntities.FLATLOOKUP,
   reducer: flatLookupReducer,
 });
