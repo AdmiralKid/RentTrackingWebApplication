@@ -4,10 +4,10 @@ import { FlatLookup } from "../models/flatLookup.model";
 
 export class FlatDatabase {
 	constructor() {}
-    fetchLookupByApartmentId = async (apartmentId: number): Promise<FlatLookup[]> => {
-		const queryString = "CALL `renttracking`.`pFlatLookup_By_ApatmentId`(?);";
+	fetchLookupByApartmentId = async (apartmentId: number, userId: string): Promise<FlatLookup[]> => {
+		const queryString = "CALL `renttracking`.`pFlatLookup_By_ApatmentId`(?, ?);";
 		return new Promise((res, rej) => {
-			conn.query(queryString, [apartmentId], (error, result) => {
+			conn.query(queryString, [apartmentId, userId], (error, result) => {
 				if (error) {
 					rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
 				} else {
@@ -17,5 +17,4 @@ export class FlatDatabase {
 			});
 		});
 	};
-    
 }
