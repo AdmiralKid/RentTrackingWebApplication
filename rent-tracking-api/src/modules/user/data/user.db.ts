@@ -11,9 +11,10 @@ export class UserDatabase {
     phoneNumber,
     email,
     photoURL,
-    userRoleId
+    userRoleId,
   }: User): Promise<User> => {
-    const queryString = "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?,?);";
+    const queryString =
+      "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?,?);";
 
     return new Promise((res, rej) => {
       conn.query(
@@ -30,6 +31,20 @@ export class UserDatabase {
       );
     });
   };
+
+  fetchUserByUserId = async(userId: string, roleId: number): Promise<User> => {
+    const queryString = "CALL `renttracking`.`pUser_Get_By_UserId`(?, ?);";
+    return new Promise((res, rej) => {
+      conn.query(queryString,[userId, roleId], (error, result) => {
+        if(error) {
+          rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
+        } else {
+          let user = result[0][0] as User;
+          res(user);
+        }
+      })
+    })
+  }
 
   private mapUserTableToUser = ({
     user_id,

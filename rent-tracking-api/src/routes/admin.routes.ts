@@ -32,9 +32,9 @@ router.post("/setclaims", async (req, res, next) => {
     next(err);
   }
 });
-router.get("/getClaims", async (req, res, next) => {
+router.get("/getClaims/:emailId", async (req, res, next) => {
   try {
-    const { emailid } = req.body as { emailid: string };
+    const emailid = req.params["emailId"];
     var result = await adminService.getCustomClaim(emailid);
     res.json(result);
   } catch (error) {

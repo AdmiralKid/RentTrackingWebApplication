@@ -10,6 +10,10 @@ export class UserService {
     return await userDatabase.createOrUpdateUser(user);
   };
 
+  fetchUserByuserId = async (userId: string, roleId: number): Promise<User> => {
+    return await userDatabase.fetchUserByUserId(userId, roleId);
+  }
+
   private mapDecodedTokenToUser = (token: DecodedToken): User => {
     let roleId = token.owner ? UserRole.OWNER : token.tenant ? UserRole.TENANT : token.admin ? UserRole.ADMIN : UserRole.DEFAULT;
     const user: User = {
