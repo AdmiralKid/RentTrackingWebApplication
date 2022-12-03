@@ -1,0 +1,15 @@
+<mat-card>
+  <div *ngIf="flat.tenantUserId; then thenblock; else elseblock"></div>
+</mat-card>
+<ng-template #elseblock>Flat {{ flat.flatName }} is not occupied.</ng-template>
+<ng-template #thenblock
+  ><mat-card-title>{{ flat.flatName }}</mat-card-title>
+  <mat-card-subtitle
+    >{{ flat.tenantName }} - {{ flat.tenantPhoneNumber }}</mat-card-subtitle
+  >
+  <mat-card-actions>
+    <button [routerLink]="['/owner/flat', flat.flatId, flat.tenantUserId]" mat-mini-fab color="primary">
+      <mat-icon>info</mat-icon>
+    </button>
+  </mat-card-actions>
+</ng-template>
