@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ApartmentDetailsComponent } from './containers/apartment-details/apartment-details.component';
 import { ApartmentsComponent } from './containers/apartments/apartments.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
+import { FlatComponent } from './containers/flat/flat.component';
 import { OwnerComponent } from './owner.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'apartment/:apartmentId', component: ApartmentDetailsComponent },
+      { path: 'flat/:flatId/:tenantId', component: FlatComponent}
     ],
   },
 ];

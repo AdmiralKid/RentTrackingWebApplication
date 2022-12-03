@@ -8,7 +8,6 @@ import { ApartmentsComponent } from './containers/apartments/apartments.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApartmentStoreModule } from '../core/store/apartment/apartment-store.module';
 import { ApartmentListComponent } from './components/apartment-list/apartment-list.component';
-import { ApartmentFormComponent } from './components/apartment-form/apartment-form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,6 +18,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { ApartmentDetailsComponent } from './containers/apartment-details/apartment-details.component';
 import { FlatLookupStoreModule } from '../core/store/flat-lookup/flat-lookup-store.module';
+import { FlatListComponent } from './components/flat-list/flat-list.component';
+import { FlatComponent } from './containers/flat/flat.component';
+import { FlatDetailsComponent } from './components/flat-details/flat-details.component';
+import { FlattenancyDetailsComponent } from './components/flattenancy-details/flattenancy-details.component';
+import { TenantDetailsComponent } from './components/tenant-details/tenant-details.component';
+import { FlatStoreModule } from '../core/store/flat/flat-store.module';
 
 const MaterialImports = [
   MatButtonModule,
@@ -38,8 +43,12 @@ const MaterialImports = [
     NavbarComponent,
     ApartmentsComponent,
     ApartmentListComponent,
-    ApartmentFormComponent,
     ApartmentDetailsComponent,
+    FlatListComponent,
+    FlatComponent,
+    FlatDetailsComponent,
+    FlattenancyDetailsComponent,
+    TenantDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +56,7 @@ const MaterialImports = [
     ReactiveFormsModule,
     ApartmentStoreModule,
     FlatLookupStoreModule,
+    FlatStoreModule,
     MaterialImports,
   ],
 })

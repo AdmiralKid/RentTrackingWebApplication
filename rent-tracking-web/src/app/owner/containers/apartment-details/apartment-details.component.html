@@ -1,14 +1,5 @@
 <div class="flatList">
   <ng-container *ngFor="let flat of flatLookup$ | async">
-    <mat-card>
-      <div *ngIf="flat.tenantUserId; then thenblock else elseblock"></div>
-    </mat-card>
-    <ng-template #elseblock
-      >Flat {{ flat.flatName }} is not occupied.</ng-template
-    >
-    <ng-template #thenblock
-      ><mat-card-title>{{ flat.flatName }}</mat-card-title>
-      <mat-card-subtitle>{{ flat.tenantName }} - {{ flat.tenantPhoneNumber }}</mat-card-subtitle></ng-template
-    >
+    <app-flat-list [flat] = "flat"></app-flat-list>
   </ng-container>
 </div>
