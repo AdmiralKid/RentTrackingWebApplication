@@ -29,11 +29,13 @@ const MaterialImports = [MatSnackBarModule];
     HttpClientModule,
     MaterialImports,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenHeaderInterceptor,
-    multi: true
-  }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenHeaderInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

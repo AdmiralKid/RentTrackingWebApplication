@@ -1,2 +1,23 @@
-<p>flattenancy-details works!</p>
-{{(flatTenancy | async | json)}}
+<mat-accordion
+  *ngIf="flatTenancy | async as flatTenancyObj"
+  class="example-headers-align"
+  multi
+  ><mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Flat Section</mat-panel-title>
+      <mat-panel-description></mat-panel-description>
+    </mat-expansion-panel-header>
+    <dl>
+      <dt>Rent:</dt>
+      <dd>
+        {{ flatTenancyObj.rentAmount }}
+      </dd>
+    </dl>
+    <dl>
+      <dt>Security Deposit:</dt>
+      <dd>
+        {{ flatTenancyObj.securityDeposit }}
+      </dd>
+    </dl>
+  </mat-expansion-panel></mat-accordion
+>
