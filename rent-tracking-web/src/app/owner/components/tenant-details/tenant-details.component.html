@@ -1,2 +1,34 @@
-<p>tenant-details works!</p>
-{{(tenant | async | json)}}
+<mat-accordion
+  *ngIf="tenant | async as tenantObj"
+  class="example-headers-align"
+  multi
+  ><mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Tenant Section</mat-panel-title>
+      <mat-panel-description> </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-card
+      ><mat-card-header>
+        <div
+          mat-card-avatar
+          class="example-header-image"
+          style="background-image: url('{{ tenantObj.photoURL }}')"
+        ></div>
+        <mat-card-title>{{ tenantObj.name }}</mat-card-title>
+      </mat-card-header>
+      <div class="divider"></div>
+      <dl>
+        <dt>Email:</dt>
+        <dd>
+          {{ tenantObj.email }}
+        </dd>
+      </dl>
+      <dl>
+        <dt>Phone number:</dt>
+        <dd>
+          {{ tenantObj.phoneNumber ? tenantObj.phoneNumber : "Not given" }}
+        </dd>
+      </dl>
+    </mat-card>
+  </mat-expansion-panel></mat-accordion
+>

@@ -7,8 +7,18 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-image: linear-gradient(0deg, rgba(128,128,128,1) 0%, rgba(255,255,255,1) 100%);
+  background-image: linear-gradient(
+    0deg,
+    rgba(128, 128, 128, 1) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.divider {
+  height: 1px;
+  background-color: #666;
+  margin-block: 1rem;
 }

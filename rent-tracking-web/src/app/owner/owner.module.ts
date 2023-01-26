@@ -16,6 +16,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ApartmentDetailsComponent } from './containers/apartment-details/apartment-details.component';
 import { FlatLookupStoreModule } from '../core/store/flat-lookup/flat-lookup-store.module';
 import { FlatListComponent } from './components/flat-list/flat-list.component';
@@ -34,6 +35,7 @@ const MaterialImports = [
   MatMenuModule,
   MatCardModule,
   MatIconModule,
+  MatExpansionModule,
 ];
 
 @NgModule({
