@@ -1,8 +1,4 @@
-<mat-accordion
-  *ngIf="flatTenancy | async as flatTenancyObj"
-  class="example-headers-align"
-  multi
-  ><mat-expansion-panel>
+<mat-accordion *ngIf="flatTenancy | async as flatTenancyObj" class="example-headers-align" multi><mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>Flat Section</mat-panel-title>
       <mat-panel-description></mat-panel-description>
@@ -19,5 +15,4 @@
         {{ flatTenancyObj.securityDeposit }}
       </dd>
     </dl>
-  </mat-expansion-panel></mat-accordion
->
+  </mat-expansion-panel></mat-accordion>

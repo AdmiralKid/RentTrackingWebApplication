@@ -5,7 +5,7 @@ import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { OwnerRoutingModule } from './owner-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ApartmentsComponent } from './containers/apartments/apartments.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApartmentStoreModule } from '../core/store/apartment/apartment-store.module';
 import { ApartmentListComponent } from './components/apartment-list/apartment-list.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +25,9 @@ import { FlatDetailsComponent } from './components/flat-details/flat-details.com
 import { FlattenancyDetailsComponent } from './components/flattenancy-details/flattenancy-details.component';
 import { TenantDetailsComponent } from './components/tenant-details/tenant-details.component';
 import { FlatStoreModule } from '../core/store/flat/flat-store.module';
+import { AssignTenantDialogComponent } from './components/assign-tenant-dialog/assign-tenant-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 const MaterialImports = [
   MatButtonModule,
@@ -36,6 +39,8 @@ const MaterialImports = [
   MatCardModule,
   MatIconModule,
   MatExpansionModule,
+  MatDialogModule,
+  MatSelectModule
 ];
 
 @NgModule({
@@ -51,15 +56,17 @@ const MaterialImports = [
     FlatDetailsComponent,
     FlattenancyDetailsComponent,
     TenantDetailsComponent,
+    AssignTenantDialogComponent,
   ],
   imports: [
     CommonModule,
     OwnerRoutingModule,
     ReactiveFormsModule,
     ApartmentStoreModule,
+    FormsModule,
     FlatLookupStoreModule,
     FlatStoreModule,
     MaterialImports,
   ],
 })
-export class OwnerModule {}
+export class OwnerModule { }
