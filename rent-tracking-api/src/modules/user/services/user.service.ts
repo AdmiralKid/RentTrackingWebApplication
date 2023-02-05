@@ -15,7 +15,7 @@ export class UserService {
     return await userDatabase.fetchUserByUserId(userId, roleId);
   };
 
-  fetchTenantLookup = async (): Promise<UserLookup> => {
+  fetchTenantLookup = async (): Promise<UserLookup[]> => {
     return await userDatabase.fetchTenantLookup();
   };
 

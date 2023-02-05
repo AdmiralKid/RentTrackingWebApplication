@@ -47,14 +47,14 @@ export class UserDatabase {
     });
   };
 
-  fetchTenantLookup = async (): Promise<UserLookup> => {
+  fetchTenantLookup = async (): Promise<UserLookup[]> => {
     const queryString = "CALL `renttracking`.`pGetTenantLookup`();";
     return new Promise((res, rej) => {
       conn.query(queryString, (error, result) => {
         if (error) {
           rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
         } else {
-          let user = result[0][0] as UserLookup;
+          let user = result[0] as UserLookup[];
           res(user);
         }
       });
