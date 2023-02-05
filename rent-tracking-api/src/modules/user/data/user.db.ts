@@ -1,6 +1,7 @@
 import { conn } from "../../../db/mysql.connection";
 import { APIError, HTTPStatusCode } from "../../error/api-error.model";
 import { User } from "../models/user.model";
+import { UserLookup } from "../models/userlookup";
 import { UserTable } from "../models/userTable";
 export class UserDatabase {
   constructor() {}
@@ -32,19 +33,33 @@ export class UserDatabase {
     });
   };
 
-  fetchUserByUserId = async(userId: string, roleId: number): Promise<User> => {
+  fetchUserByUserId = async (userId: string, roleId: number): Promise<User> => {
     const queryString = "CALL `renttracking`.`pUser_Get_By_UserId`(?, ?);";
     return new Promise((res, rej) => {
-      conn.query(queryString,[userId, roleId], (error, result) => {
-        if(error) {
+      conn.query(queryString, [userId, roleId], (error, result) => {
+        if (error) {
           rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
         } else {
           let user = result[0][0] as User;
           res(user);
         }
-      })
-    })
-  }
+      });
+    });
+  };
+
+  fetchTenantLookup = async (): Promise<UserLookup> => {
+    const queryString = "CALL `renttracking`.`pGetTenantLookup`();";
+    return new Promise((res, rej) => {
+      conn.query(queryString, (error, result) => {
+        if (error) {
+          rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
+        } else {
+          let user = result[0][0] as UserLookup;
+          res(user);
+        }
+      });
+    });
+  };
 
   private mapUserTableToUser = ({
     user_id,

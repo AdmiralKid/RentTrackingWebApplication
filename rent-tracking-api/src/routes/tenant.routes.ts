@@ -22,4 +22,17 @@ router.get("/details/:tenantId", async (req, res, next) => {
     next(err);
   }
 });
+router.get("/tenantlookup", async (req, res, next) => {
+  try {
+    let tenantlookup = await userService.fetchTenantLookup();
+    if (!tenantlookup) {
+      return res
+        .status(HTTPStatusCode.NOT_FOUND)
+        .json({ message: "No tenant Details records found" });
+    }
+    return res.json(tenantlookup);
+  } catch (err) {
+    next(err);
+  }
+});
 export default router;
