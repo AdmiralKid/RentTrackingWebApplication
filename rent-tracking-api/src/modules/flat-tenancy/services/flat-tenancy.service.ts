@@ -7,4 +7,8 @@ export class FlatTenancyService {
 	fetchFlatTenancyByTenantId  = async (tenantId: string, userId: string): Promise<FlatTenancy> => {
 		return await flatTenancyDatabase.fetchFlatTenancyByTenantId(tenantId, userId);
 	};
+
+	createOrUpdate = async (flatTenancy: FlatTenancy) : Promise<FlatTenancy> => {
+		return await flatTenancyDatabase.createOrUpdate(flatTenancy);
+	}
 }

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { APIError, HTTPStatusCode } from "../modules/error/api-error.model";
+import { FlatTenancy } from "../modules/flat-tenancy/models/flat-tenancy.model";
 import { flatTenancyService } from "../server/services";
 
 const router = Router();
@@ -26,4 +27,17 @@ router.get("/details/:tenantId", async (req, res, next) => {
     next(err);
   }
 });
+
+router.post("/modify", async (req, res, next) => {
+  try {
+    const flatTenancyReq = req.body as FlatTenancy;
+    console.log(flatTenancyReq);
+    let flatTenancy = await flatTenancyService.createOrUpdate(flatTenancyReq);
+    return res.json(flatTenancy);
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 export default router;
