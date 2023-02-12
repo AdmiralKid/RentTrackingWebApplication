@@ -8,10 +8,11 @@ import { User } from '../models/user.model';
 })
 export class UserService {
 
-  private _baseUrl: string;
+  private _baseUrl = environment.apiBaseURL;;
 
-  constructor(private http: HttpClient) {
-    this._baseUrl = environment.apiBaseURL;
-  }
-  tenantDetailsByTenantId$ = (tenantId: string) => this.http.get<User>(`${this._baseUrl}/tenant/details/${tenantId}`);
+  constructor(private http: HttpClient) { }
+
+  tenantDetailsByTenantId = (tenantId: string) => this.http.get<User>(`${this._baseUrl}/tenant/details/${tenantId}`);
+
+  tenantsLookup$ = this.http.get<User[]>(`${this._baseUrl}/tenant/tenantlookup`)
 }

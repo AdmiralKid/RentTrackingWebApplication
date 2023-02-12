@@ -12,6 +12,7 @@ export const environment = {
 		user: process.env["DB_USER"],
 		password: process.env["DB_PASS"],
 		database: process.env["DB"],
-		timezone: 'utc'
+		timezone: 'utc',
+
 	},
 } as const;

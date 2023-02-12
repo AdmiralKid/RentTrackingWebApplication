@@ -20,7 +20,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class TokenHeaderInterceptor implements HttpInterceptor {
-  constructor(private afa: AngularFireAuth) {}
+  constructor(private afa: AngularFireAuth) { }
 
   intercept(
     request: HttpRequest<unknown>,
@@ -42,9 +42,6 @@ export class TokenHeaderInterceptor implements HttpInterceptor {
           catchError((err) => {
             console.log(err);
             return of();
-          }),
-          finalize(() => {
-            console.log('END OF RESPONSE');
           })
         );
       })

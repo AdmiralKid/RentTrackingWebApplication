@@ -10,11 +10,15 @@ import { AssignTenantDialogComponent } from '../assign-tenant-dialog/assign-tena
 })
 export class FlatListComponent implements OnInit {
   @Input() flat!: FlatLookup;
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   assignTenant() {
-    this.dialog.open(AssignTenantDialogComponent);
+    this.dialog.open(AssignTenantDialogComponent, {
+      minWidth: '450px', data: {
+        flat: this.flat
+      }
+    });
   }
 }

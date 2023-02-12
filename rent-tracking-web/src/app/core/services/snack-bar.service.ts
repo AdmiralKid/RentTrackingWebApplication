@@ -8,7 +8,7 @@ export class SnackBarService {
   // Private members
   private duration: number = 2 * 1000;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar) { }
 
   openSnackBar(message: string, duration = this.duration) {
     this.snackBar.open(message, undefined, {

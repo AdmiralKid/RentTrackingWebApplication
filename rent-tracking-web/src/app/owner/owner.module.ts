@@ -28,6 +28,9 @@ import { FlatStoreModule } from '../core/store/flat/flat-store.module';
 import { AssignTenantDialogComponent } from './components/assign-tenant-dialog/assign-tenant-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 const MaterialImports = [
   MatButtonModule,
@@ -40,7 +43,9 @@ const MaterialImports = [
   MatIconModule,
   MatExpansionModule,
   MatDialogModule,
-  MatSelectModule
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ];
 
 @NgModule({
@@ -68,5 +73,6 @@ const MaterialImports = [
     FlatStoreModule,
     MaterialImports,
   ],
+  providers: [{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
 })
 export class OwnerModule { }

@@ -13,6 +13,7 @@ import { CoreModule } from './core/core.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TokenHeaderInterceptor } from './core/interceptor/token-header.interceptor';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
 
 const MaterialImports = [MatSnackBarModule];
 @NgModule({
@@ -35,7 +36,8 @@ const MaterialImports = [MatSnackBarModule];
       useClass: TokenHeaderInterceptor,
       multi: true,
     },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

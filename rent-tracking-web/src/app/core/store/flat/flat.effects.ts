@@ -23,7 +23,7 @@ export class FlatEffects {
     private flatService: FlatService,
     private flatTenancyService: FlatTenancyService,
     private userService: UserService
-  ) {}
+  ) { }
   loadFlat$ = createEffect(() =>
     this.action$.pipe(
       ofType(loadFlat),
@@ -69,24 +69,24 @@ export class FlatEffects {
   );
 
   loadTenant$ = createEffect(() =>
-  this.action$.pipe(
-    ofType(loadTenant),
-    mergeMap(({ tenantId }) =>
-      this.userService
-        .tenantDetailsByTenantId$(tenantId)
-        .pipe(map((tenant) => loadTenantSuccess({ tenant })))
-    ),
-    catchError((error) =>
-      of(
-        loadTenantFailure({
-          errorMessage: `Could not load tenant details, \n${JSON.stringify(
-            error,
-            undefined,
-            2
-          )}`,
-        })
+    this.action$.pipe(
+      ofType(loadTenant),
+      mergeMap(({ tenantId }) =>
+        this.userService
+          .tenantDetailsByTenantId(tenantId)
+          .pipe(map((tenant) => loadTenantSuccess({ tenant })))
+      ),
+      catchError((error) =>
+        of(
+          loadTenantFailure({
+            errorMessage: `Could not load tenant details, \n${JSON.stringify(
+              error,
+              undefined,
+              2
+            )}`,
+          })
+        )
       )
     )
-  )
-);
+  );
 }

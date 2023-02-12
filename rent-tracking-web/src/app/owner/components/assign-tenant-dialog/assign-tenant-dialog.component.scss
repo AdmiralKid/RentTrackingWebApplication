@@ -1,6 +1,10 @@
 form {
   display: flex;
   flex-direction: column;
+  padding: 1rem;
+  & button {
+    margin-top: 1rem;
+  }
 }
 
 input[type="number"] {
