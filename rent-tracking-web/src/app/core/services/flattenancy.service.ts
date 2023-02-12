@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { FlatTenancy } from '../models/flat-tenancy.model';
+import { formatDate } from '@angular/common';
+import { DateService } from './date.service';
+import { SnackBarService } from './snack-bar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +13,7 @@ import { FlatTenancy } from '../models/flat-tenancy.model';
 export class FlatTenancyService {
   private _baseUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private date: DateService, private snackBar: SnackBarService) {
     this._baseUrl = environment.apiBaseURL;
   }
 
@@ -17,4 +21,15 @@ export class FlatTenancyService {
     this.http.get<FlatTenancy>(
       `${this._baseUrl}/flattenancy/details/${tenantId}`
     );
+
+  updateFlatTenancyDetails = (flatTenancy: FlatTenancy) => {
+    flatTenancy.startDate = this.date.convertToUTC(flatTenancy.startDate);
+
+    this.http.post(`${this._baseUrl}/flattenancy/modify`, flatTenancy).pipe(catchError(() => {
+      this.snackBar.openSnackBar("Failed to assign tenant...")
+      return of()
+    })).subscribe((data) => {
+      this.snackBar.openSnackBar("Assigned Tenant...")
+    });
+  }
 }
