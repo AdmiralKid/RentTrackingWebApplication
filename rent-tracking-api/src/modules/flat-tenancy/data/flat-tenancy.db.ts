@@ -17,4 +17,25 @@ export class FlatTenancyDatabase {
 			});
 		});
 	};
+
+	createOrUpdate = async (flatTenancy:FlatTenancy) : Promise<FlatTenancy> => {
+		const queryString = "CALL `renttracking`.`pFlatTenancy_Create_Update`(?, ?, ?, ?, ?, ?);";
+		const date = flatTenancy.startDate.toString().split('T')[0];
+		console.log(date)
+		return new Promise((res, rej) => {
+			conn.query(
+			  queryString,
+			  [flatTenancy.flatId, flatTenancy.userId, flatTenancy.rentAmount, flatTenancy.securityDeposit, flatTenancy.dueDayOfMonth, date],
+			  (error, result) => {
+				if (error) {
+				  rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
+				} else {
+				  let userTableData = result[0][0] as FlatTenancy;
+				  res(userTableData);
+				}
+			  }
+			);
+		  });
+		
+	}
 }

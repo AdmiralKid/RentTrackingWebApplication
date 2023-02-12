@@ -1,16 +1,24 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { FlatLookup } from '../../../core/models/flatlookup.model';
+import { AssignTenantDialogComponent } from '../assign-tenant-dialog/assign-tenant-dialog.component';
 
 @Component({
   selector: 'app-flat-list',
   templateUrl: './flat-list.component.html',
-  styleUrls: ['./flat-list.component.scss']
+  styleUrls: ['./flat-list.component.scss'],
 })
 export class FlatListComponent implements OnInit {
   @Input() flat!: FlatLookup;
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  assignTenant() {
+    this.dialog.open(AssignTenantDialogComponent, {
+      minWidth: '450px', data: {
+        flat: this.flat
+      }
+    });
   }
-
 }

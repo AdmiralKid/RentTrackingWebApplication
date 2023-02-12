@@ -10,7 +10,9 @@ import { User } from '../../../core/models/user.model';
 export class TenantDetailsComponent implements OnInit {
   @Input() tenant!: Observable<User | undefined>;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const v = 1;
+  }
 }
