@@ -6,30 +6,18 @@ import { UserTable } from "../models/userTable";
 export class UserDatabase {
   constructor() {}
 
-  createOrUpdateUser = async ({
-    uid,
-    name,
-    phoneNumber,
-    email,
-    photoURL,
-    userRoleId,
-  }: User): Promise<User> => {
-    const queryString =
-      "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?,?);";
+  createOrUpdateUser = async ({ uid, name, phoneNumber, email, photoURL, userRoleId }: User): Promise<User> => {
+    const queryString = "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?,?);";
 
     return new Promise((res, rej) => {
-      conn.query(
-        queryString,
-        [uid, name, phoneNumber, email, photoURL, userRoleId],
-        (error, result) => {
-          if (error) {
-            rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
-          } else {
-            let userTableData = result[0][0] as UserTable;
-            res(this.mapUserTableToUser(userTableData));
-          }
+      conn.query(queryString, [uid, name, phoneNumber, email, photoURL, userRoleId], (error, result) => {
+        if (error) {
+          rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
+        } else {
+          let userTableData = result[0][0] as UserTable;
+          res(this.mapUserTableToUser(userTableData));
         }
-      );
+      });
     });
   };
 
@@ -61,14 +49,7 @@ export class UserDatabase {
     });
   };
 
-  private mapUserTableToUser = ({
-    user_id,
-    name,
-    phone_number,
-    email,
-    photo_url,
-    user_role_id,
-  }: UserTable): User => {
+  private mapUserTableToUser = ({ user_id, name, phone_number, email, photo_url, user_role_id }: UserTable): User => {
     const user: User = {
       uid: user_id,
       name: name,

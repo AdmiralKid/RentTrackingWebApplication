@@ -21,7 +21,6 @@ export class FlatTenancyDatabase {
 	createOrUpdate = async (flatTenancy:FlatTenancy) : Promise<FlatTenancy> => {
 		const queryString = "CALL `renttracking`.`pFlatTenancy_Create_Update`(?, ?, ?, ?, ?, ?);";
 		const date = flatTenancy.startDate.toString().split('T')[0];
-		console.log(date)
 		return new Promise((res, rej) => {
 			conn.query(
 			  queryString,
