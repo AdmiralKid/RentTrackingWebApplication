@@ -19,6 +19,6 @@ router.use("/admin", adminMiddleware, adminRouter);
 router.use("/flat", verifyClientUserToken, flatRouter);
 router.use("/flattenancy", verifyClientUserToken, flatTenancyRouter);
 router.use("/tenant", verifyClientUserToken, tenantRouter);
-router.use("/lookup", lookupRouter);
-router.use("/bill", billRouter);
+router.use("/lookup", verifyClientUserToken, lookupRouter);
+router.use("/bill", verifyClientUserToken, billRouter);
 export default router;
