@@ -1,9 +1,8 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { first, tap } from 'rxjs';
-import { Flat } from '../../../core/models/flat.model';
+import { first } from 'rxjs';
 import { FlatLookup } from '../../../core/models/flatlookup.model';
 import { FlatTenancyService } from '../../../core/services/flattenancy.service';
 import { UserService } from '../../../core/services/user.service';
@@ -17,7 +16,6 @@ import { currentApartmentId } from '../../../core/store/flat-lookup/flat-lookup.
 })
 export class AssignTenantDialogComponent implements OnInit {
   tenants$ = this.userService.tenantsLookup$;
-
   constructor(
     private store: Store,
     private userService: UserService,
@@ -41,16 +39,18 @@ export class AssignTenantDialogComponent implements OnInit {
   }
 
   submit() {
-    this.flatTenancy
-      .updateFlatTenancyDetails(this.assignTenantForm.value)
-      .subscribe(() => {
-        this.store
-          .select(currentApartmentId)
-          .pipe(first())
-          .subscribe((apartmentId) => {
-            this.store.dispatch(loadFlatLookup({ apartmentId }));
-          });
-      });
-    this.dialogRef.close();
+    if (this.assignTenantForm.valid) {
+      this.flatTenancy
+        .updateFlatTenancyDetails(this.assignTenantForm.value)
+        .subscribe(() => {
+          this.store
+            .select(currentApartmentId)
+            .pipe(first())
+            .subscribe((apartmentId) => {
+              this.store.dispatch(loadFlatLookup({ apartmentId }));
+            });
+        });
+      this.dialogRef.close();
+    }
   }
 }

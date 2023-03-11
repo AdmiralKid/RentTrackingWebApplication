@@ -10,5 +10,16 @@ export interface Bill {
   paymentMethod: string;
   paymentDate: Date;
   createdDate: Date;
-  comments: string;
+  comments?: string;
 }
+
+export type BillForm = Pick<
+  Bill,
+  | 'flatTenancyId'
+  | 'receiverId'
+  | 'amount'
+  | 'billTypeId'
+  | 'paymentMethodId'
+  | 'paymentDate'
+  | 'comments'
+>;

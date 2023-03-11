@@ -31,6 +31,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { CreateBillDialogComponent } from './components/create-bill-dialog/create-bill-dialog.component';
 
 const MaterialImports = [
   MatButtonModule,
@@ -62,6 +63,7 @@ const MaterialImports = [
     FlattenancyDetailsComponent,
     TenantDetailsComponent,
     AssignTenantDialogComponent,
+    CreateBillDialogComponent,
   ],
   imports: [
     CommonModule,

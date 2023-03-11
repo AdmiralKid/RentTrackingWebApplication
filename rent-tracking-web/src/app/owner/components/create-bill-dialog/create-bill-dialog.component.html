@@ -1,0 +1,51 @@
+<form (ngSubmit)="submit()" [formGroup]="billFormGroup">
+  <h1>Create Bill</h1>
+
+  <p>{{data.flatLookup.tenantName}}</p>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Receiver</mat-label>
+    <mat-select formControlName="receiverId">
+      <mat-option *ngFor="let receiver of (receivers$| async)" [value]="receiver.uid">{{receiver.name}}
+        ({{receiver.email}})</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Amount</mat-label>
+    <input matInput type="number" autocomplete="off" formControlName="amount" />
+  </mat-form-field>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Bill Type</mat-label>
+    <mat-select formControlName="billTypeId">
+      <mat-option *ngFor="let billType of (billTypes$| async)"
+        [value]="billType.billTypeId">{{billType.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Payment Method</mat-label>
+    <mat-select formControlName="paymentMethodId">
+      <mat-option *ngFor="let paymentMethod of (paymentMethods$ | async)"
+        [value]="paymentMethod.paymentMethodId">{{paymentMethod.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="example-form-field">
+    <mat-label>Payment Date</mat-label>
+    <input matInput [matDatepicker]="datepicker" formControlName="paymentDate">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker #datepicker>
+
+    </mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Comments</mat-label>
+    <textarea matInput autocomplete="off" formControlName="comments" rows="4"></textarea>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary">Submit</button>
+</form>
