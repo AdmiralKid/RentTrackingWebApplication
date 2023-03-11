@@ -13,7 +13,11 @@ import { SnackBarService } from './snack-bar.service';
 export class FlatTenancyService {
   private _baseUrl: string;
 
-  constructor(private http: HttpClient, private date: DateService, private snackBar: SnackBarService) {
+  constructor(
+    private http: HttpClient,
+    private date: DateService,
+    private snackBar: SnackBarService
+  ) {
     this._baseUrl = environment.apiBaseURL;
   }
 
@@ -25,11 +29,14 @@ export class FlatTenancyService {
   updateFlatTenancyDetails = (flatTenancy: FlatTenancy) => {
     flatTenancy.startDate = this.date.convertToUTC(flatTenancy.startDate);
 
-    this.http.post(`${this._baseUrl}/flattenancy/modify`, flatTenancy).pipe(catchError(() => {
-      this.snackBar.openSnackBar("Failed to assign tenant...")
-      return of()
-    })).subscribe((data) => {
-      this.snackBar.openSnackBar("Assigned Tenant...")
-    });
-  }
+    return this.http
+      .post<FlatTenancy>(`${this._baseUrl}/flattenancy/modify`, flatTenancy)
+      .pipe(
+        catchError(() => {
+          this.snackBar.openSnackBar('Failed to assign tenant...');
+          return of();
+        }),
+        tap((data) => this.snackBar.openSnackBar('Assigned Tenant...'))
+      );
+  };
 }
