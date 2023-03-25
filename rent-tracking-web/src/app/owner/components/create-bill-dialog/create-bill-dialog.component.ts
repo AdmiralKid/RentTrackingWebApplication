@@ -1,6 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { tap } from 'rxjs';
 import { FlatLookup } from '../../../core/models/flatlookup.model';
 import { BillService } from '../../../core/services/bill.service';
@@ -30,7 +34,8 @@ export class CreateBillDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { flatLookup: FlatLookup },
     private fb: FormBuilder,
     private lookup: LookupService,
-    private billService: BillService
+    private billService: BillService,
+    private dialog: MatDialogRef<CreateBillDialogComponent>
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +46,14 @@ export class CreateBillDialogComponent implements OnInit {
 
   submit() {
     if (this.billFormGroup.valid) {
-      this.billService.createBill(this.billFormGroup.value);
+      this.billService.createBill(this.billFormGroup.value).subscribe(
+        (data) => {
+          this.dialog.close();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
     }
   }
 }

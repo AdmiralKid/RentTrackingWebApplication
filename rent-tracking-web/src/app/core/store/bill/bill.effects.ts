@@ -5,10 +5,10 @@ import { BillService } from '../../services/bill.service';
 import { loadBill, loadBillFailure, loadBillSuccess } from './bill.actions';
 
 @Injectable()
-export class FlatLookupEffects {
+export class BillEffects {
   constructor(private action$: Actions, private billService: BillService) {}
 
-  loadFlatLookup$ = createEffect(() =>
+  loadBills$ = createEffect(() =>
     this.action$.pipe(
       ofType(loadBill),
       mergeMap(({ flatTenancyId }) =>

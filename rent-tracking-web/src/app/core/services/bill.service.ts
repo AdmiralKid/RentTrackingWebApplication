@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, of } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Bill, BillForm } from '../models/bill.model';
 import { DateService } from './date.service';
@@ -23,16 +23,14 @@ export class BillService {
     this.http.delete(`${this._baseUrl}/bill/delete/${billId}`);
   createBill = (bill: BillForm) => {
     bill.paymentDate = this.date.convertToUTC(bill.paymentDate);
-    this.http
-      .post(`${this._baseUrl}/bill/create`, bill)
-      .pipe(
-        catchError(() => {
-          this.snackBar.openSnackBar('Failed to create bill...');
-          return of();
-        })
-      )
-      .subscribe((data) => {
+    return this.http.post(`${this._baseUrl}/bill/create`, bill).pipe(
+      tap((data) => {
         this.snackBar.openSnackBar('Bill Created successfully...');
-      });
+      }),
+      catchError(() => {
+        this.snackBar.openSnackBar('Failed to create bill...');
+        return of();
+      })
+    );
   };
 }

@@ -14,13 +14,14 @@ import {
   Observable,
   of,
   take,
+  throwError,
 } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class TokenHeaderInterceptor implements HttpInterceptor {
-  constructor(private afa: AngularFireAuth) { }
+  constructor(private afa: AngularFireAuth) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -41,7 +42,7 @@ export class TokenHeaderInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
           catchError((err) => {
             console.log(err);
-            return of();
+            throw err;
           })
         );
       })

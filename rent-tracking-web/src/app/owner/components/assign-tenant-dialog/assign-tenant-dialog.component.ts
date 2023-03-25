@@ -49,8 +49,8 @@ export class AssignTenantDialogComponent implements OnInit {
             .subscribe((apartmentId) => {
               this.store.dispatch(loadFlatLookup({ apartmentId }));
             });
+          this.dialogRef.close();
         });
-      this.dialogRef.close();
     }
   }
 }

@@ -1,8 +1,4 @@
-<mat-accordion
-  *ngIf="flat | async as flatObj"
-  class="example-headers-align"
-  multi
-  ><mat-expansion-panel>
+<mat-accordion *ngIf="flat | async as flatObj" class="example-headers-align" multi><mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>Flat Section</mat-panel-title>
       <mat-panel-description></mat-panel-description>
@@ -10,9 +6,5 @@
     <h1>{{ flatObj.flatName }}</h1>
     <div class="divider"></div>
     <p>{{ flatObj.description }}</p>
-    <div class="divider"></div>
-    <div class="options">
-      <button mat-flat-button color="warn" class="option">DEL</button>
-    </div></mat-expansion-panel
-  ></mat-accordion
->
+  </mat-expansion-panel>
+</mat-accordion>
