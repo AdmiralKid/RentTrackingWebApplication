@@ -4,4 +4,5 @@ export enum StoreEntities {
   ROUTER = 'router',
   FLATLOOKUP = 'flatlookup',
   FLAT = 'flat',
+  BILL = 'bill',
 }

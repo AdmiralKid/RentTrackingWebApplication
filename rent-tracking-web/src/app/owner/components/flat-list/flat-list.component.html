@@ -9,8 +9,8 @@
     is not occupied
   </mat-card-subtitle>
   <mat-card-actions>
-    <button mat-mini-fab color="accent" (click)="assignTenant()">
-      <mat-icon>assignment</mat-icon>
+    <button mat-flat-button color="accent" (click)="assignTenant()">
+      <mat-icon>assignment</mat-icon> Assign
     </button>
   </mat-card-actions>
 
@@ -22,8 +22,9 @@
     {{ flat.tenantName }} - {{ flat.tenantPhoneNumber }}
   </mat-card-subtitle>
   <mat-card-actions>
-    <button [routerLink]="['/owner/flat', flat.flatId, flat.tenantUserId]" mat-mini-fab color="primary">
-      <mat-icon>info</mat-icon>
+    <button [routerLink]="['/owner/flat', flat.flatId, flat.tenantUserId]" mat-flat-button color="primary">
+      <mat-icon>info</mat-icon> Details
     </button>
+    <button mat-flat-button color="primary" (click)="createBill()"><mat-icon>library_books</mat-icon> Add Bill</button>
   </mat-card-actions>
 </ng-template>
