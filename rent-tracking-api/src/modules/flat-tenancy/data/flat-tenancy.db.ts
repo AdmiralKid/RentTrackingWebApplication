@@ -35,6 +35,23 @@ export class FlatTenancyDatabase {
 			  }
 			);
 		  });
-		
+	}
+
+	endFlatTenancy = async (flatTenancyId:number, endDate:Date) : Promise<boolean> => {
+		const queryString = "CALL `renttracking`.`pFlatTenancy_End_Tenancy`(?, ?);"
+		const date = endDate.toString().split('T')[0];
+		return new Promise((res, rej) => {
+			conn.query(
+				queryString,
+				[flatTenancyId, date],
+				(error, result) => {
+				  if (error) {
+					rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
+				  } else {
+					res(result.affectedRows > 0);
+				  }
+				}
+			);
+		})
 	}
 }
