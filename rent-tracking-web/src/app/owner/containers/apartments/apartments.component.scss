@@ -1,13 +1,13 @@
 .aptCardContainer {
-  padding: 10px;
+  padding: 1em;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 5rem;
+  gap: 1rem;
   align-items: center;
   justify-content: center;
   height: 100%;
-  & > * {
-    width: max(60%, 450px);
+
+  &>* {
+    width: max(60%, 350px);
   }
 }

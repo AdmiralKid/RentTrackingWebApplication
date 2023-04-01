@@ -1,5 +1,6 @@
 <div class="flatList">
+  <h1 class="mat-display-2">Flats</h1>
   <ng-container *ngFor="let flat of flatLookup$ | async">
-    <app-flat-list [flat] = "flat"></app-flat-list>
+    <app-flat-list [flat]="flat"></app-flat-list>
   </ng-container>
 </div>

@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.unassign-button {
+  align-self: flex-end;
+}
+
+.info {
+  flex-direction: column;
+  gap: 0.25rem;
+  border-radius: 0.25rem;
+  background-color: #f005;
+  padding: 0.5rem;
+}
+
+.flat-name,
+.tenant-name {
+  color: #fffd;
+  background-color: #fff1;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
