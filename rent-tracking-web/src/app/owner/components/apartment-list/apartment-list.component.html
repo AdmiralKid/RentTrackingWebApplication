@@ -2,12 +2,8 @@
   <mat-card-title>{{ apartment.name }}</mat-card-title>
   <mat-card-subtitle>{{ apartment.address }}</mat-card-subtitle>
   <mat-card-actions>
-    <button
-      [routerLink]="['/owner/apartment', apartment.apartmentId]"
-      mat-mini-fab
-      color="primary"
-    >
-      <mat-icon>info</mat-icon>
+    <button [routerLink]="['/owner/apartment', apartment.apartmentId]" mat-flat-button color="primary">
+      <mat-icon>info</mat-icon> Details
     </button>
   </mat-card-actions>
 </mat-card>

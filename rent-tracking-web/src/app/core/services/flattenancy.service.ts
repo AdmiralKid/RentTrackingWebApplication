@@ -39,4 +39,16 @@ export class FlatTenancyService {
         tap((data) => this.snackBar.openSnackBar('Assigned Tenant...'))
       );
   };
+  endTenancy = (flatTenancyId: number, endDate: Date) => {
+    endDate = this.date.convertToUTC(endDate);
+    return this.http
+        .post<boolean>(`${this._baseUrl}/flattenancy/endtenancy`, {flattenancyid : flatTenancyId, enddate: endDate})
+        .pipe(
+          catchError(() => {
+            this.snackBar.openSnackBar('Failed to end tenancy...');
+            return of();
+          }),
+          tap((data) => this.snackBar.openSnackBar('Successfully ended tenancy...'))
+        );
+  }
 }

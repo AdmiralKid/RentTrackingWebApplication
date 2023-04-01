@@ -6,4 +6,5 @@ export interface FlatTenancy {
   securityDeposit: number;
   dueDayOfMonth: number;
   startDate: Date;
+  endDate: Date;
 }

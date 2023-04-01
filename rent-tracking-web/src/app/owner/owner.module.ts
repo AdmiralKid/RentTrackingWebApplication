@@ -37,6 +37,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { UnassignDialogComponent } from './components/unassign-dialog/unassign-dialog.component';
 
 const MaterialImports = [
   MatButtonModule,
@@ -71,6 +72,7 @@ const MaterialImports = [
     AssignTenantDialogComponent,
     CreateBillDialogComponent,
     BillingHistoryComponent,
+    UnassignDialogComponent,
   ],
   imports: [
     CommonModule,

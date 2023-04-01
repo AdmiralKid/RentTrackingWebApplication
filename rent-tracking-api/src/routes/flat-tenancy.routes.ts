@@ -40,4 +40,20 @@ router.post("/modify", async (req, res, next) => {
   }
 })
 
+router.post("/endtenancy", async (req, res, next) =>{
+	try {
+		const {flattenancyid, enddate} = req.body as { flattenancyid : number, enddate: Date};
+		if (!(flattenancyid && enddate)) {
+			throw new APIError(
+			  HTTPStatusCode.BAD_REQUEST,
+			  "Missing flattenancyid or enddate."
+			);
+		}
+		let isSuccess = await flatTenancyService.endTenancy(flattenancyid, enddate);
+		res.send(isSuccess)
+	} catch (err) {
+    next(err);
+  }
+})
+
 export default router;

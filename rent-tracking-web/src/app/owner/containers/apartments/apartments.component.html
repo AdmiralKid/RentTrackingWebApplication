@@ -1,7 +1,4 @@
-
 <div class="aptCardContainer">
-  <app-apartment-list
-    *ngFor="let apartment of apartments$ | async"
-    [apartment]="apartment"
-  ></app-apartment-list>
+  <h1 class="mat-display-2">Apartments</h1>
+  <app-apartment-list *ngFor="let apartment of apartments$ | async" [apartment]="apartment"></app-apartment-list>
 </div>

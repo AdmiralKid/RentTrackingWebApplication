@@ -11,4 +11,7 @@ export class FlatTenancyService {
 	createOrUpdate = async (flatTenancy: FlatTenancy) : Promise<FlatTenancy> => {
 		return await flatTenancyDatabase.createOrUpdate(flatTenancy);
 	}
+	endTenancy = async (flatTenancyId:number, endDate:Date) : Promise<boolean> => {
+		return await flatTenancyDatabase.endFlatTenancy(flatTenancyId, endDate);
+	}
 }
