@@ -5,8 +5,10 @@
 	"main": "./dist/index.js",
 	"scripts": {
 		"build": "tsc",
-		"start": "tsc & node ./dist/index.js",
-		"dev": "nodemon ./src/index.ts"
+		"start": "tsc & Set NODE_ENV=development& node ./dist/index.js",
+		"start:prod": "tsc & Set NODE_ENV=production& node ./dist/index.js",
+		"dev": "Set NODE_ENV=development& nodemon ./src/index.ts",
+		"dev:prod": "Set NODE_ENV=production& nodemon ./src/index.ts"
 	},
 	"author": "",
 	"license": "ISC",

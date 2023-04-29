@@ -1,4 +1,8 @@
-<mat-accordion *ngIf="billingHistory$ | async as bills" class="example-headers-align" multi><mat-expansion-panel>
+<mat-accordion
+  *ngIf="billingHistory$ | async as bills"
+  class="example-headers-align"
+  multi
+  ><mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
       <mat-panel-title>Billing History</mat-panel-title>
       <mat-panel-description></mat-panel-description>
@@ -8,31 +12,35 @@
       <table mat-table [dataSource]="bills" class="bill-table">
         <ng-container matColumnDef="paymentDate">
           <th mat-header-cell *matHeaderCellDef>Date</th>
-          <td mat-cell *matCellDef="let element">{{element.paymentDate | date:'mediumDate'}}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.paymentDate | date : "mediumDate" }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef>Amount</th>
-          <td mat-cell *matCellDef="let element">{{element.amount}}</td>
+          <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
         </ng-container>
 
         <ng-container matColumnDef="receiverName">
           <th mat-header-cell *matHeaderCellDef>Reciever</th>
-          <td mat-cell *matCellDef="let element">{{element.receiverName}}</td>
+          <td mat-cell *matCellDef="let element">{{ element.receiverName }}</td>
         </ng-container>
         <ng-container matColumnDef="billType">
           <th mat-header-cell *matHeaderCellDef>Type</th>
-          <td mat-cell *matCellDef="let element">{{element.billType}}</td>
+          <td mat-cell *matCellDef="let element">{{ element.billType }}</td>
         </ng-container>
         <ng-container matColumnDef="paymentMethod">
           <th mat-header-cell *matHeaderCellDef>Payment Method</th>
-          <td mat-cell *matCellDef="let element">{{element.paymentMethod}}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.paymentMethod }}
+          </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
-    </ng-container>
-  </mat-expansion-panel></mat-accordion>
+    </ng-container> </mat-expansion-panel
+></mat-accordion>
 
 <ng-template #noBills>
   <h1 class="center">No Bills</h1>

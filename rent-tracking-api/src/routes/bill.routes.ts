@@ -23,7 +23,6 @@ router.post("/create", async (req, res, next) => {
       throw new APIError(HTTPStatusCode.BAD_REQUEST, "Invalid Bill Details.");
     }
     let result = await billService.createbill(billReq);
-    console.log(result);
     return res.json(result);
   } catch (error) {
     next(error);

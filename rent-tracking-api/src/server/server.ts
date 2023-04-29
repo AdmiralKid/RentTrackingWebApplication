@@ -1,7 +1,12 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-dotenv.config();
+import path from "path";
+
+console.log(process.env.NODE_ENV);
+console.log(`${path.join(__dirname, `../../.env.${process.env.NODE_ENV?.trim()!}`)}}`);
+dotenv.config({ path: `.env.${process.env.NODE_ENV?.trim()!}` });
+console.log(process.env.PORT);
 
 import router from "../routes";
 import { logMiddleware } from "../middleware/logging.middleware";

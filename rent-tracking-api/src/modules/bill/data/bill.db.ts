@@ -5,7 +5,7 @@ import { Bill } from "../models/bill.model";
 export class BillDatabase {
   constructor() {}
   createbill = async (bill: Bill): Promise<boolean> => {
-    const queryString = "CALL `renttracking`.`pBill_Create`(?, ?, ?, ?, ?, ?, ?);";
+    const queryString = "CALL `pBill_Create`(?, ?, ?, ?, ?, ?, ?);";
     const date = bill.paymentDate.toString().split("T")[0];
     return new Promise((res, rej) => {
       conn.query(
@@ -21,7 +21,7 @@ export class BillDatabase {
     });
   };
   deletebill = async (billId: number): Promise<boolean> => {
-    const queryString = `DELETE FROM renttracking.bill WHERE bill_id = ${billId}`;
+    const queryString = `DELETE FROM bill WHERE bill_id = ${billId}`;
     return new Promise((res, rej) => {
       conn.query(queryString, (error, result) => {
         if (error) {
@@ -34,13 +34,12 @@ export class BillDatabase {
   };
   fetchBillByFlatTenancyId = async (flatTenancyId: number): Promise<Bill[]> => {
     {
-      const queryString = `CALL renttracking.pBill_Get_By_FlatTenancyId(?);`;
+      const queryString = `CALL pBill_Get_By_FlatTenancyId(?);`;
       return new Promise((res, rej) => {
         conn.query(queryString, [flatTenancyId], (error, result) => {
           if (error) {
             rej(new APIError(HTTPStatusCode.INTERNAL_SERVER_ERROR, error));
           } else {
-            console.log(result[0])
             let rows = result[0] as Bill[];
             res(rows);
           }

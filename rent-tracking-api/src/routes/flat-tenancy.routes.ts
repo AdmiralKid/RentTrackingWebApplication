@@ -31,7 +31,6 @@ router.get("/details/:tenantId", async (req, res, next) => {
 router.post("/modify", async (req, res, next) => {
   try {
     const flatTenancyReq = req.body as FlatTenancy;
-    console.log(flatTenancyReq);
     let flatTenancy = await flatTenancyService.createOrUpdate(flatTenancyReq);
     return res.json(flatTenancy);
   } catch (error) {

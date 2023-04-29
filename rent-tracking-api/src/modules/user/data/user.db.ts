@@ -7,7 +7,7 @@ export class UserDatabase {
   constructor() {}
 
   createOrUpdateUser = async ({ uid, name, phoneNumber, email, photoURL, userRoleId }: User): Promise<User> => {
-    const queryString = "CALL `renttracking`.`pUser_Create_Update`(?,?,?,?,?,?);";
+    const queryString = "CALL `pUser_Create_Update`(?,?,?,?,?,?);";
 
     return new Promise((res, rej) => {
       conn.query(queryString, [uid, name, phoneNumber, email, photoURL, userRoleId], (error, result) => {
@@ -22,7 +22,7 @@ export class UserDatabase {
   };
 
   fetchUserByUserId = async (userId: string, roleId: number): Promise<User> => {
-    const queryString = "CALL `renttracking`.`pUser_Get_By_UserId`(?, ?);";
+    const queryString = "CALL `pUser_Get_By_UserId`(?, ?);";
     return new Promise((res, rej) => {
       conn.query(queryString, [userId, roleId], (error, result) => {
         if (error) {
@@ -36,7 +36,7 @@ export class UserDatabase {
   };
 
   fetchTenantLookup = async (): Promise<UserLookup[]> => {
-    const queryString = "CALL `renttracking`.`pGetTenantLookup`();";
+    const queryString = "CALL `pGetTenantLookup`();";
     return new Promise((res, rej) => {
       conn.query(queryString, (error, result) => {
         if (error) {
