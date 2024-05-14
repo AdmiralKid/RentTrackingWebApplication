@@ -8,7 +8,7 @@ Web application to track rent.
 - MySQL Server and Workbench.
 - Visual Studio Code.
 
-## Developement Setup
+## Developement Setup 
 
 #### Database
 
