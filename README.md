@@ -12,7 +12,7 @@ Web application to track rent.
 
 #### Database
 
-- Yet to init
+- Yet to init 
 
 #### API
 
